@@ -14,7 +14,7 @@ struct Joueur
 
 struct Joueurs
 {
-    struct Joueur mesJoueurs[10];
+    Joueur mesJoueurs[10];
 };
 
 

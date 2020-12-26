@@ -42,32 +42,33 @@ void moveFusee(fusee f, matrice m, int intensite, int direction){
     }
 }
 
-void attaqueFusee(fusee f, matrice mat){
+void attaqueFusee(fusee f, matrice mat, listeMonstre l, int * i, Joueur monJ){
 
-    int i = f->positionX+longueurFusee+1;
     Monstre m;
     int test = 1;
 
-    while(i != HEIGHT && test){
 
-        if (mat[i][f->positionY] != 0)
-        {
-            m = identificationMonstre(i, f->positionY);
-            degat(m);
-            test = 0;
+
+        if(*i < HEIGHT && *i > 0){
+            if (mat[*i][f->positionY] != 0)
+            {
+                m = identificationMonstre(*i, f->positionY, l);
+                degat(m, l);
+                test = 0;
+                *i = f->positionX+longueurFusee+1;
+                monJ.scoreCourant = monJ.scoreCourant+20;
+            }
+
+            if(*i == f->positionX+longueurFusee+1) mat[*i][f->positionY] = 1;
+            else{
+                mat[*i][f->positionY] = 1;
+                mat[*i-1][f->positionY] = 0;
+            }
+            affichePlan(mat);
+        }else{
+            *i = f->positionX+longueurFusee+1;
         }
-
-        if(i == f->positionX+longueurFusee+1) mat[i][f->positionY] = 1;
-        else{
-            mat[i][f->positionY] = 1;
-            mat[i-1][f->positionY] = 1;
-        }
-        affichePlan(mat);
-        // attendre 
-        i++;
-
-    }
-    
-    
-    // attendre
+}
+int estMorte(fusee f){
+    return f->pointVie <= 0;
 }

@@ -36,4 +36,6 @@ Joueurs getMesJoueurs(){
         mesJoueurs.mesJoueurs[i] = getJoueur();
         i++;
     }
+
+    return mesJoueurs;
 }

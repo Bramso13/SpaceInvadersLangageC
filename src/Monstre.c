@@ -64,20 +64,59 @@ int estVivant(Monstre m){
 
 void addMonstre(Monstre m, listeMonstre l, int index){
 
-    l[index] = m;
-}
-
-Monstre identificationMonstre(int x, int y){
-  int i;
-  for(i=0;l[i]!=MAXMONSTRE;i++){
-    if(l[i] -> positionX == x && l[i] -> positionY == y){
-    return l[i];
+    if(estVivant(m)){
+         l.listeMonstre[index] = m;
     }
-  return 0;
-  }
 }
 
-void degat(Monstre m){
+Monstre identificationMonstre(int x, int y, listeMonstre l){
+  int i;
+  for(i=0;i!=MAXMONSTRE;i++){
+      if((x > l.listeMonstre[i]->positionX-largeurMonstre && x < l.listeMonstre[i]->positionX+largeurMonstre) &&
+      (y > l.listeMonstre[i]->positionY-hauteurMonstre && y < l.listeMonstre[i]->positionY+hauteurMonstre)){
+          return l.listeMonstre[i];
+      }
+    
+    }
+
+  
+}
+void ligneMonstre(int nbDeLigne, listeMonstre l, matrice mat){
+    Monstre m = {0, 0, 0, 0};
+    int i = 0,j, nb = WIDTH/(largeurMonstre*2), indexMonstre=0;
+    for(j = 0;j<nbDeLigne;j++){
+        for(i=0;i<nb;i++){
+            constructeurMonstreBase(m, largeurMonstre*i+1, hauteurMonstre*j+1,indexMonstre,l);
+            placeMonstre(m, mat);
+            indexMonstre++;
+        }
+    }
+    
+}
+void degat(Monstre m, listeMonstre liste){
     setPointVie(m, m->pointVie-1);
+    if(!estVivant(m)){
+        actualiseListe(liste);
+    }
+}
+void actualiseListe(listeMonstre liste){
+
+    int i, j;
+    for(i=0;i<MAXMONSTRE;i++){
+        if(liste.listeMonstre[i]->pointVie == 0){
+            liste.nb--;
+            for(j=i-1; j<MAXMONSTRE-1; j++)
+            {
+                liste.listeMonstre[i] = liste.listeMonstre[j + 1];
+            }
+        }
+    }
+}
+void moveToutMonstre(listeMonstre liste, matrice mat){
+    int i;
+
+    for(i=0;i<liste.nb;i++){
+        moveMonstre(liste.listeMonstre[i], mat, 1);
+    }
 }
 

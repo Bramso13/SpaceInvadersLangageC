@@ -1,10 +1,20 @@
-int menu_principal(int width, int height){
-  int largeur_text, hauteur_text, x_clique, y_clique;
-  int image_menu_width=300, image_menu_height=150;
-  char * text_1 = "Partie joueur 1";
-  char * text_2 = "Partie joueur 2";
-  char * text_3 = "Score";
-  char * text_4 = "Exit";
+
+#include "inc/Menu.h"
+#include "inc/Joueur.h"
+#include "inc/Fusee.h"
+#include "inc/Monstre.h"
+#include "inc/Plan.h"
+
+
+int menu_principal(int width, int height, Joueurs mesJoueurs){
+  int largeur_text, hauteur_text, x_clique, y_clique, image_menu_width=300, image_menu_height=150;
+  char * text_1 = "Partie joueur 1", text_2 = "Partie joueur 2", text_3 = "Score", text_4 = "Exit";
+
+
+
+  
+    text_1 = getNomJoueur(mesJoueurs.mesJoueurs[1]);
+    text_2 = getNomJoueur(mesJoueurs.mesJoueurs[2]);
 
   MLV_Image* image_menu = MLV_load_image("./Images/image_menu.png");
 
@@ -90,4 +100,28 @@ int menu_principal(int width, int height){
   else {
     return 1;
   }
+}
+int menuJeu(int width, int height, fusee maFusee, matrice mat, listeMonstre liste, int partiePoint, Joueur monJ){
+  int perdu = 0;
+  int balle = maFusee->positionX+longueurFusee+1;
+  do
+  {
+    perdu = partiePoint == 0;
+    
+    if(!perdu){
+      if(estMorte(maFusee)) partiePoint--;
+      if(MLV_get_keyboard_state(MLV_KEYBOARD_RIGHT)) moveFusee(maFusee, mat, 1, 2); // bouger a droite
+      if(MLV_get_keyboard_state(MLV_KEYBOARD_LEFT)) moveFusee(maFusee, mat, 1, 1); // bouger a droite
+      if(liste.nb == 0){
+        ligneMonstre(1, liste, mat);
+      }
+      moveToutMonstre(liste, mat);
+      attaqueFusee(maFusee, mat, liste, &balle, monJ);
+      balle++;
+      monJ.scoreCourant++;
+      MLV_wait_milliseconds(200);
+    }
+  } while (!perdu);
+  if(perdu) return 6;
+  
 }
