@@ -33,6 +33,7 @@ int constructeurMonstreBase(Monstre m, int x, int y, int index, listeMonstre l){
     addMonstre(m, l, index);
 
 }
+
 int placeMonstre(Monstre m, matrice mat){
 
 
@@ -67,7 +68,13 @@ void addMonstre(Monstre m, listeMonstre l, int index){
 }
 
 Monstre identificationMonstre(int x, int y){
-    // renvoie le monstre identifié
+  int i;
+  for(i=0;l[i]!=MAXMONSTRE;i++){
+    if(l[i] -> positionX == x && l[i] -> positionY == y){
+    return l[i];
+    }
+  return 0;
+  }
 }
 
 void degat(Monstre m){
