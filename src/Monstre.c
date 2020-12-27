@@ -42,7 +42,59 @@ int placeMonstre(Monstre m, matrice mat){
     switch (m->type)
     {
     case 0: // monstre de type de base
+        mat[m -> positionX][m -> positionY]= getPointVie(m);
+         mat[m -> positionX-1][m -> positionY]= getPointVie(m);
+         mat[m -> positionX-3][m -> positionY]= getPointVie(m);
+         mat[m -> positionX-4][m -> positionY]= getPointVie(m);
+         mat[m -> positionX+1][m -> positionY]= getPointVie(m);
+         mat[m -> positionX+3][m -> positionY]= getPointVie(m);
+         mat[m -> positionX+4][m -> positionY]= getPointVie(m);
 
+         mat[m -> positionX][m -> positionY+1]= getPointVie(m);
+         mat[m -> positionX-1][m -> positionY+1]= getPointVie(m);
+         mat[m -> positionX-2][m -> positionY+1]= getPointVie(m);
+         mat[m -> positionX-3][m -> positionY+1] = getPointVie(m);
+         mat[m -> positionX+1][m -> positionY+1]= getPointVie(m);
+         mat[m -> positionX+2][m -> positionY+1]= getPointVie(m);
+         mat[m -> positionX+3][m -> positionY+1]= getPointVie(m);
+
+         mat[m -> positionX-2][m -> positionY+2]= getPointVie(m);
+         mat[m -> positionX+2][m -> positionY+2]= getPointVie(m);
+
+         mat[m -> positionX-3][m -> positionY+3]= getPointVie(m);
+         mat[m -> positionX+3][m -> positionY+3]= getPointVie(m);
+
+         mat[m -> positionX][m -> positionY-1]= getPointVie(m);
+         mat[m -> positionX-1][m -> positionY-1]= getPointVie(m);
+         mat[m -> positionX-2][m -> positionY-1]= getPointVie(m);
+         mat[m -> positionX-3][m -> positionY-1]= getPointVie(m);
+         mat[m -> positionX-4][m -> positionY-1]= getPointVie(m);
+         mat[m -> positionX-5][m -> positionY-1]= getPointVie(m);
+         mat[m -> positionX+1][m -> positionY-1]= getPointVie(m);
+         mat[m -> positionX+2][m -> positionY-1]= getPointVie(m);
+         mat[m -> positionX+3][m -> positionY-1]= getPointVie(m);
+         mat[m -> positionX+4][m -> positionY-1]= getPointVie(m);
+         mat[m -> positionX+5][m -> positionY-1]= getPointVie(m);
+
+         mat[m -> positionX][m -> positionY-2]= getPointVie(m);
+         mat[m -> positionX-1][m -> positionY-2]= getPointVie(m);
+         mat[m -> positionX-2][m -> positionY-2]= getPointVie(m);
+         mat[m -> positionX-3][m -> positionY-2]= getPointVie(m);
+         mat[m -> positionX-5][m -> positionY-2]= getPointVie(m);
+         mat[m -> positionX+1][m -> positionY-2]= getPointVie(m);
+         mat[m -> positionX+2][m -> positionY-2]= getPointVie(m);
+         mat[m -> positionX+3][m -> positionY-2]= getPointVie(m);
+         mat[m -> positionX+5][m -> positionY-2]= getPointVie(m);
+
+         mat[m -> positionX-3][m -> positionY-3]= getPointVie(m);
+         mat[m -> positionX-5][m -> positionY-3]= getPointVie(m);
+         mat[m -> positionX+3][m -> positionY-3]= getPointVie(m);
+         mat[m -> positionX+5][m -> positionY-3]= getPointVie(m);
+
+         mat[m -> positionX-1][m -> positionY-4]= getPointVie(m);
+         mat[m -> positionX-2][m -> positionY-4]= getPointVie(m);
+         mat[m -> positionX+1][m -> positionY-4]= getPointVie(m);
+         mat[m -> positionX+2][m -> positionY-4]= getPointVie(m);
         break;
 
     default:
