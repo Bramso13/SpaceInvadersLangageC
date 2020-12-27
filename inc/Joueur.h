@@ -15,16 +15,18 @@ struct Joueur
 struct Joueurs
 {
     Joueur mesJoueurs[10];
+    int nbJoueur;
 };
 
 
 
 Joueur getJoueur();
 Joueurs getMesJoueurs();
-char * getNomJoueur(Joueur);
-int getMeilleurScore(Joueur j);
-int getScoreCourant(Joueur j);
+char * getNomJoueur(Joueur j){return j.nomJoueur;};
+int getMeilleurScore(Joueur j){return j.meilleurScore;};
+int getScoreCourant(Joueur j){return j.scoreCourant;};
 
 
-int setJoueur(Joueur j);
-int setMeilleurScore(Joueur j, int meilleur);
+int setJoueur(Joueur j, Joueurs js);
+int setJoueurs(Joueurs js);
+int setMeilleurScore(Joueur j, int meilleur){ j.meilleurScore = meilleur;};

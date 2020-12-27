@@ -108,6 +108,11 @@ int moveMonstre(Monstre m, matrice mat, int intensite){
 
     setPositionY(m, m->positionY+intensite);
     placeMonstre(m, mat);
+    if(mat[m->positionX][m->positionY+hauteurMonstre+1] == 15){
+        return 1;
+    }else{
+        return 0;
+    }
 }
 
 int estVivant(Monstre m){
@@ -164,11 +169,12 @@ void actualiseListe(listeMonstre liste){
         }
     }
 }
-void moveToutMonstre(listeMonstre liste, matrice mat){
-    int i;
+int moveToutMonstre(listeMonstre liste, matrice mat){
+    int i, test=0;
 
     for(i=0;i<liste.nb;i++){
-        moveMonstre(liste.listeMonstre[i], mat, 1);
+        if(moveMonstre(liste.listeMonstre[i], mat, 1)) test=1;
     }
+    return test;
 }
 

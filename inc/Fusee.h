@@ -1,6 +1,5 @@
 #include "inc/Plan.h"
 #include "inc/Monstre.h"
-#include "inc/Joueur.h"
 #define longueurFusee 3
 #define largeurFusee 2
 
@@ -8,13 +7,13 @@ typedef struct Fusee * fusee;
 
 struct Fusee
 {
-    int positionX;
-    int positionY;
-    int pointVie;
+    int positionFX;
+    int positionFY;
+    int pointFVie;
 
 };
 
-int constructeurFusee(fusee);
+int constructeurFusee(fusee f, int point);
 void attaqueFusee(fusee f, matrice mat, listeMonstre l, int * i, Joueur monJ);
 void moveFusee(fusee f, matrice m, int intensite, int direction);
 void placeFusee(fusee f, matrice mat);

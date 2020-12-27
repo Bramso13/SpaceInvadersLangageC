@@ -1,9 +1,5 @@
 
 #include "inc/Menu.h"
-#include "inc/Joueur.h"
-#include "inc/Fusee.h"
-#include "inc/Monstre.h"
-#include "inc/Plan.h"
 
 
 int menu_principal(int width, int height, Joueurs mesJoueurs){
@@ -103,19 +99,24 @@ int menu_principal(int width, int height, Joueurs mesJoueurs){
 }
 int menuJeu(int width, int height, fusee maFusee, matrice mat, listeMonstre liste, int partiePoint, Joueur monJ){
   int perdu = 0;
-  int balle = maFusee->positionX+longueurFusee+1;
+  int balle = maFusee->positionFX+longueurFusee+1;
+  constructeurFusee(maFusee, partiePoint);
+  placeFusee(maFusee, mat);
   do
   {
+    planVide(mat);
     perdu = partiePoint == 0;
     
     if(!perdu){
-      if(estMorte(maFusee)) partiePoint--;
       if(MLV_get_keyboard_state(MLV_KEYBOARD_RIGHT)) moveFusee(maFusee, mat, 1, 2); // bouger a droite
       if(MLV_get_keyboard_state(MLV_KEYBOARD_LEFT)) moveFusee(maFusee, mat, 1, 1); // bouger a droite
       if(liste.nb == 0){
         ligneMonstre(1, liste, mat);
       }
-      moveToutMonstre(liste, mat);
+      if(moveToutMonstre(liste, mat)){
+         partiePoint--;
+         maFusee->pointFVie--;
+      }
       attaqueFusee(maFusee, mat, liste, &balle, monJ);
       balle++;
       monJ.scoreCourant++;
