@@ -1,6 +1,7 @@
 // Définition du type Monstre
 #include "inc/Plan.h"
 
+
 #define largeurMonstre 6
 #define hauteurMonstre 4
 #define MAXMONSTRE 4
@@ -38,5 +39,5 @@ void degat(Monstre m, listeMonstre liste);
 int estVivant(Monstre m);
 void ligneMonstre(int nbDeLigne, listeMonstre l, matrice mat);
 void actualiseListe(listeMonstre liste);
-void moveToutMonstre(listeMonstre liste, matrice mat);
+int moveToutMonstre(listeMonstre liste, matrice mat);
 

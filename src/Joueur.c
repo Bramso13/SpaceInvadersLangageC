@@ -13,14 +13,16 @@ Joueur getJoueur()
 {
 	Joueur monJoueur;
 
-    int fd = open("./txt/score", O_WRONLY | O_APPEND | O_CREAT, 0600);
+    int fd = open("./txt/score", O_RDONLY, 0600);
     if (fd < 0) {
         fprintf(stderr, "probleme d'ouverture de fichier");
+
     }
 
 	int iread = read(fd, &monJoueur, sizeof(Joueur));
 	if (iread < 0) {
         fprintf(stderr, "probleme de lecture de fichier");
+
     }
 	
 	return(monJoueur);
@@ -36,6 +38,31 @@ Joueurs getMesJoueurs(){
         mesJoueurs.mesJoueurs[i] = getJoueur();
         i++;
     }
-
+    mesJoueurs.nbJoueur = i;
     return mesJoueurs;
+}
+
+int setJoueur(Joueur j, Joueurs js){
+
+    js.mesJoueurs[js.nbJoueur] = j;
+    return 1;
+}
+
+int setJoueurs(Joueurs js){
+
+    int i, fd = open("./txt/score", O_WRONLY | O_TRUNC | O_CREAT, 0600);
+    for(i=0;i<js.nbJoueur;i++){
+
+        if (fd > 0) {
+            int iwrite = write(fd, &js.mesJoueurs[i], sizeof(Joueur));
+            if (iwrite < 0) {
+                fprintf(stderr, "erreur d'ecriture de fichier");
+                return 0;
+            }
+	    }else{
+            fprintf(stderr, "erreur d'ouverture de fichier");
+            return 0;
+        }
+    }
+    return 1;
 }

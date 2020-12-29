@@ -25,7 +25,7 @@ void setPositionY(Monstre m, int position){
 }
 
 int constructeurMonstreBase(Monstre m, int x, int y, int index, listeMonstre l){
-    setPointVie(m, 10);
+    setPointVie(m, 3);
     m->type = 0;
     setPositionX(m, x);
     setPositionY(m, y);
@@ -42,7 +42,59 @@ int placeMonstre(Monstre m, matrice mat){
     switch (m->type)
     {
     case 0: // monstre de type de base
+        mat[m -> positionX][m -> positionY]= getPointVie(m);
+         mat[m -> positionX-1][m -> positionY]= getPointVie(m);
+         mat[m -> positionX-3][m -> positionY]= getPointVie(m);
+         mat[m -> positionX-4][m -> positionY]= getPointVie(m);
+         mat[m -> positionX+1][m -> positionY]= getPointVie(m);
+         mat[m -> positionX+3][m -> positionY]= getPointVie(m);
+         mat[m -> positionX+4][m -> positionY]= getPointVie(m);
 
+         mat[m -> positionX][m -> positionY+1]= getPointVie(m);
+         mat[m -> positionX-1][m -> positionY+1]= getPointVie(m);
+         mat[m -> positionX-2][m -> positionY+1]= getPointVie(m);
+         mat[m -> positionX-3][m -> positionY+1] = getPointVie(m);
+         mat[m -> positionX+1][m -> positionY+1]= getPointVie(m);
+         mat[m -> positionX+2][m -> positionY+1]= getPointVie(m);
+         mat[m -> positionX+3][m -> positionY+1]= getPointVie(m);
+
+         mat[m -> positionX-2][m -> positionY+2]= getPointVie(m);
+         mat[m -> positionX+2][m -> positionY+2]= getPointVie(m);
+
+         mat[m -> positionX-3][m -> positionY+3]= getPointVie(m);
+         mat[m -> positionX+3][m -> positionY+3]= getPointVie(m);
+
+         mat[m -> positionX][m -> positionY-1]= getPointVie(m);
+         mat[m -> positionX-1][m -> positionY-1]= getPointVie(m);
+         mat[m -> positionX-2][m -> positionY-1]= getPointVie(m);
+         mat[m -> positionX-3][m -> positionY-1]= getPointVie(m);
+         mat[m -> positionX-4][m -> positionY-1]= getPointVie(m);
+         mat[m -> positionX-5][m -> positionY-1]= getPointVie(m);
+         mat[m -> positionX+1][m -> positionY-1]= getPointVie(m);
+         mat[m -> positionX+2][m -> positionY-1]= getPointVie(m);
+         mat[m -> positionX+3][m -> positionY-1]= getPointVie(m);
+         mat[m -> positionX+4][m -> positionY-1]= getPointVie(m);
+         mat[m -> positionX+5][m -> positionY-1]= getPointVie(m);
+
+         mat[m -> positionX][m -> positionY-2]= getPointVie(m);
+         mat[m -> positionX-1][m -> positionY-2]= getPointVie(m);
+         mat[m -> positionX-2][m -> positionY-2]= getPointVie(m);
+         mat[m -> positionX-3][m -> positionY-2]= getPointVie(m);
+         mat[m -> positionX-5][m -> positionY-2]= getPointVie(m);
+         mat[m -> positionX+1][m -> positionY-2]= getPointVie(m);
+         mat[m -> positionX+2][m -> positionY-2]= getPointVie(m);
+         mat[m -> positionX+3][m -> positionY-2]= getPointVie(m);
+         mat[m -> positionX+5][m -> positionY-2]= getPointVie(m);
+
+         mat[m -> positionX-3][m -> positionY-3]= getPointVie(m);
+         mat[m -> positionX-5][m -> positionY-3]= getPointVie(m);
+         mat[m -> positionX+3][m -> positionY-3]= getPointVie(m);
+         mat[m -> positionX+5][m -> positionY-3]= getPointVie(m);
+
+         mat[m -> positionX-1][m -> positionY-4]= getPointVie(m);
+         mat[m -> positionX-2][m -> positionY-4]= getPointVie(m);
+         mat[m -> positionX+1][m -> positionY-4]= getPointVie(m);
+         mat[m -> positionX+2][m -> positionY-4]= getPointVie(m);
         break;
 
     default:
@@ -56,6 +108,11 @@ int moveMonstre(Monstre m, matrice mat, int intensite){
 
     setPositionY(m, m->positionY+intensite);
     placeMonstre(m, mat);
+    if(mat[m->positionX][m->positionY-hauteurMonstre-1] == 15){
+        return 1;
+    }else{
+        return 0;
+    }
 }
 
 int estVivant(Monstre m){
@@ -112,11 +169,12 @@ void actualiseListe(listeMonstre liste){
         }
     }
 }
-void moveToutMonstre(listeMonstre liste, matrice mat){
-    int i;
+int moveToutMonstre(listeMonstre liste, matrice mat){
+    int i, test=0;
 
     for(i=0;i<liste.nb;i++){
-        moveMonstre(liste.listeMonstre[i], mat, 1);
+        if(moveMonstre(liste.listeMonstre[i], mat, 1)) test=1;
     }
+    return test;
 }
 

@@ -1,26 +1,32 @@
 #include "inc/Fusee.h"
+#include "inc/Joueur.h"
 
+int constructeurFusee(fusee f, int point){
 
-int constructeurFusee(fusee f){
-
-    f->positionX = WIDTH/2;
-    f->positionY = HEIGHT/2;
+    f->positionFX = WIDTH/2;
+    f->positionFY = HEIGHT-2-longueurFusee;
+    f->pointFVie = point;
 }
 
 void setX(fusee f, int x){
     if((x+largeurFusee) < WIDTH && (x-largeurFusee) > 0){
-        f->positionX = x;
+        f->positionFX = x;
     }
 }
 void setY(fusee f, int y){
     if((y+longueurFusee) < HEIGHT && (y-longueurFusee) > 0){
-        f->positionY = y;
+        f->positionFY = y;
     }
 }
 
 void placeFusee(fusee f, matrice mat){
-
-
+    int x = f->positionFX, y=f->positionFY;
+    mat[x][y] = 15;mat[x+1][y] = 15;mat[x-1][y] = 15;
+    mat[x][y-1] = 15;mat[x+1][y-1] = 15;mat[x-1][y-1] = 15;
+    mat[x][y-2] = 15;mat[x+1][y-2] = 15;mat[x-1][y-2] = 15;
+    mat[x][y+1] = 15;mat[x+1][y+1] = 15;mat[x-1][y+1] = 15;
+    mat[x][y+2] = 15;mat[x+1][y+2] = 15;mat[x-1][y+2] = 15;
+    mat[x][y+3] = 15;
 }
 
 void moveFusee(fusee f, matrice m, int intensite, int direction){
@@ -29,11 +35,11 @@ void moveFusee(fusee f, matrice m, int intensite, int direction){
     switch (direction)
     {
     case 1:
-        setX(f, f->positionX-intensite);
+        setX(f, f->positionFX-intensite);
         placeFusee(f, m);
         break;
     case 2:
-        setX(f, f->positionX+intensite);
+        setX(f, f->positionFX+intensite);
         placeFusee(f, m);
         break;
     
@@ -45,30 +51,28 @@ void moveFusee(fusee f, matrice m, int intensite, int direction){
 void attaqueFusee(fusee f, matrice mat, listeMonstre l, int * i, Joueur monJ){
 
     Monstre m;
-    int test = 1;
 
-
-
-        if(*i < HEIGHT && *i > 0){
-            if (mat[*i][f->positionY] != 0)
+    if(*i < HEIGHT && *i > 0){
+            if (mat[*i][f->positionFY] != 0)
             {
-                m = identificationMonstre(*i, f->positionY, l);
+                m = identificationMonstre(*i, f->positionFY, l);
                 degat(m, l);
-                test = 0;
-                *i = f->positionX+longueurFusee+1;
+
+                *i = f->positionFX+longueurFusee+1;
                 monJ.scoreCourant = monJ.scoreCourant+20;
             }
 
-            if(*i == f->positionX+longueurFusee+1) mat[*i][f->positionY] = 1;
+            if(*i == f->positionFX+longueurFusee+1) mat[*i][f->positionFY] = 1;
             else{
-                mat[*i][f->positionY] = 1;
-                mat[*i-1][f->positionY] = 0;
+                mat[*i][f->positionFY] = 1;
+                mat[*i-1][f->positionFY] = 0;
             }
-            affichePlan(mat);
-        }else{
-            *i = f->positionX+longueurFusee+1;
-        }
+    }else{
+        *i = f->positionFX+longueurFusee+1;
+    }
+    affichePlan(mat);
+
 }
 int estMorte(fusee f){
-    return f->pointVie <= 0;
+    return f->pointFVie <= 0;
 }
