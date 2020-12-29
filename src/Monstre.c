@@ -25,7 +25,7 @@ void setPositionY(Monstre m, int position){
 }
 
 int constructeurMonstreBase(Monstre m, int x, int y, int index, listeMonstre l){
-    setPointVie(m, 10);
+    setPointVie(m, 3);
     m->type = 0;
     setPositionX(m, x);
     setPositionY(m, y);
@@ -108,7 +108,7 @@ int moveMonstre(Monstre m, matrice mat, int intensite){
 
     setPositionY(m, m->positionY+intensite);
     placeMonstre(m, mat);
-    if(mat[m->positionX][m->positionY+hauteurMonstre+1] == 15){
+    if(mat[m->positionX][m->positionY-hauteurMonstre-1] == 15){
         return 1;
     }else{
         return 0;
