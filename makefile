@@ -3,7 +3,7 @@ p2 = `pkg-config --libs-only-other --libs-only-L MLV`
 p3 = `pkg-config --libs-only-l MLV`
 
 Space : Fusee.o Joueur.o main.o menu.o Monstre.o Plan.o
-    $(gcc) $(p2) menu.o affichage.o main.o score.o animation.o sauvegarde.o $(p3) -o The_monster
+    $(gcc) $(p2) menu.o affichage.o main.o score.o animation.o sauvegarde.o $(p3) -o Space
 
 main.o : ./inc/Fusee.h ./inc/Joueur.h ./inc/Menu.h ./inc/Monstre.h ./inc/Plan.h ./src/main.c
     $(gcc) $(p1) -c ./fichier_c/main.c 
