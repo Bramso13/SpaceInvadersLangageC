@@ -1,29 +1,27 @@
-cc = gcc
-opt1 = -Wall `pkg-config --cflags MLV`
-opt2 = `pkg-config --libs-only-other --libs-only-L MLV`
-opt3 = `pkg-config --libs-only-l MLV`
+p1 = -Wall `pkg-config --cflags MLV`
+p2 = `pkg-config --libs-only-other --libs-only-L MLV`
+p3 = `pkg-config --libs-only-l MLV`
 
-The_monster : menu.o affichage.o main.o score.o animation.o sauvegarde.o
-	$(cc) $(opt2) menu.o affichage.o main.o score.o animation.o sauvegarde.o $(opt3) -o The_monster
+Space : Fusee.o Joueur.o main.o menu.o Monstre.o Plan.o
+    $(gcc) $(p2) menu.o affichage.o main.o score.o animation.o sauvegarde.o $(p3) -o The_monster
 
-main.o : ./fichier_h/menu.h ./fichier_h/animation.h ./fichier_h/score.h ./fichier_h/sauvegarde.h ./fichier_c/main.c
-	$(cc) $(opt1) -c ./fichier_c/main.c 
+main.o : ./inc/Fusee.h ./inc/Joueur.h ./inc/Menu.h ./inc/Monstre.h ./inc/Plan.h ./src/main.c
+    $(gcc) $(p1) -c ./fichier_c/main.c 
 
-affichage.o : ./fichier_h/affichage.h ./fichier_c/affichage.c
-	$(cc) $(opt1) -c ./fichier_c/affichage.c
+Fusee.o : ./inc/Fusee.h ./inc/Joueur.h ./src/Fusee.c
+    $(gcc) $(p1) -c ./fichier_c/affichage.c
 
-menu.o : ./fichier_h/animation.h ./fichier_h/menu.h ./fichier_h/sauvegarde.h ./fichier_c/menu.c
-	$(cc) $(opt1) -c ./fichier_c/menu.c 
+Joueur.o : ./inc/Joueur.h ./src/Joueur.c
+    $(gcc) $(p1) -c ./fichier_c/menu.c 
 
+menu.o : ./inc/menu.h ./src/menu.c
+    $(gcc) $(p1) -c ./fichier_c/score.c 
 
-score.o : ./fichier_h/score.h ./fichier_c/score.c
-	$(cc) $(opt1) -c ./fichier_c/score.c 
+Monstre.o: ./inc/Monstre.h ./inc/Plan.h ./src/Monstre.c
+    $(gcc) $(p1) -c ./fichier_c/animation.c 
 
-animation.o: ./fichier_h/animation.h ./fichier_h/affichage.h ./fichier_h/score.h ./fichier_h/menu.h ./fichier_c/animation.c
-	$(cc) $(opt1) -c ./fichier_c/animation.c 
-
-sauvegarde.o: ./fichier_h/menu.h ./fichier_h/sauvegarde.h ./fichier_h/animation.h ./fichier_c/sauvegarde.c
-	$(cc) $(opt1) -c ./fichier_c/sauvegarde.c 
+Plan.o: ./inc/Monstre.h ./src/Plan.c
+    $(gcc) $(p1) -c ./fichier_c/sauvegarde.c 
 
 clean:
-	rm -f *.o *~ The_monster
+    rm -f *.o *~ Space
