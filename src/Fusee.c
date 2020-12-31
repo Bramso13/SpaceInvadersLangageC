@@ -1,11 +1,12 @@
-#include "inc/Fusee.h"
-#include "inc/Joueur.h"
+#include "../inc/Fusee.h"
+
 
 int constructeurFusee(fusee f, int point){
 
     f->positionFX = WIDTH/2;
     f->positionFY = HEIGHT-2-longueurFusee;
     f->pointFVie = point;
+    return 1;
 }
 
 void setX(fusee f, int x){

@@ -1,3 +1,6 @@
+#ifndef DEF_JOUEUR
+#define DEF_JOUEUR
+
 // Définition du type Joueur
 
 typedef struct Joueur Joueur;
@@ -29,4 +32,5 @@ int getScoreCourant(Joueur j){return j.scoreCourant;};
 
 int setJoueur(Joueur j, Joueurs js);
 int setJoueurs(Joueurs js);
-int setMeilleurScore(Joueur j, int meilleur){ j.meilleurScore = meilleur;};
+void setMeilleurScore(Joueur j, int meilleur){ j.meilleurScore = meilleur;};
+#endif

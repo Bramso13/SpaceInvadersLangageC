@@ -1,5 +1,5 @@
-#include "inc/Monstre.h"
-#include "inc/Plan.h"
+#include "../inc/Monstre.h"
+#include "../inc/Plan.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -31,6 +31,7 @@ int constructeurMonstreBase(Monstre m, int x, int y, int index, listeMonstre l){
     setPositionY(m, y);
 
     addMonstre(m, l, index);
+    return 1;
 
 }
 
@@ -128,6 +129,7 @@ void addMonstre(Monstre m, listeMonstre l, int index){
 
 Monstre identificationMonstre(int x, int y, listeMonstre l){
   int i;
+  Monstre m=malloc(sizeof(*m));
   for(i=0;i!=MAXMONSTRE;i++){
       if((x > l.listeMonstre[i]->positionX-largeurMonstre && x < l.listeMonstre[i]->positionX+largeurMonstre) &&
       (y > l.listeMonstre[i]->positionY-hauteurMonstre && y < l.listeMonstre[i]->positionY+hauteurMonstre)){
@@ -135,11 +137,12 @@ Monstre identificationMonstre(int x, int y, listeMonstre l){
       }
     
     }
+   return m;
 
   
 }
 void ligneMonstre(int nbDeLigne, listeMonstre l, matrice mat){
-    Monstre m = {0, 0, 0, 0};
+    Monstre m=malloc(sizeof(*m));
     int i = 0,j, nb = WIDTH/(largeurMonstre*2), indexMonstre=0;
     for(j = 0;j<nbDeLigne;j++){
         for(i=0;i<nb;i++){
@@ -161,6 +164,7 @@ void actualiseListe(listeMonstre liste){
     int i, j;
     for(i=0;i<MAXMONSTRE;i++){
         if(liste.listeMonstre[i]->pointVie == 0){
+        	free(liste.listeMonstre[i]);
             liste.nb--;
             for(j=i-1; j<MAXMONSTRE-1; j++)
             {

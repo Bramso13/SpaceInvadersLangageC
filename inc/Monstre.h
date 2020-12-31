@@ -1,5 +1,8 @@
+#ifndef DEF_MONSTRE
+#define DEF_MONSTRE
+
 // Définition du type Monstre
-#include "inc/Plan.h"
+#include "../inc/Plan.h"
 
 
 #define largeurMonstre 6
@@ -23,6 +26,7 @@ struct listeMonstre{
 };
 
 int getPointVie(Monstre m);
+void addMonstre(Monstre m, listeMonstre l, int index);
 
 int getPositionX(Monstre m);
 int getPositionY(Monstre m);
@@ -40,4 +44,4 @@ int estVivant(Monstre m);
 void ligneMonstre(int nbDeLigne, listeMonstre l, matrice mat);
 void actualiseListe(listeMonstre liste);
 int moveToutMonstre(listeMonstre liste, matrice mat);
-
+#endif

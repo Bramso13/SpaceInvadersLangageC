@@ -1,6 +1,6 @@
 
-#include "inc/Menu.h"
-
+#include "../inc/Menu.h"
+#include <MLV/MLV_all.h>
 
 int menu_principal(int width, int height, Joueurs mesJoueurs){
   int largeur_text, hauteur_text, x_clique, y_clique, image_menu_width=300, image_menu_height=150;
@@ -108,8 +108,8 @@ int menuJeu(int width, int height, fusee maFusee, matrice mat, listeMonstre list
     perdu = partiePoint == 0;
     
     if(!perdu){
-      if(MLV_get_keyboard_state(MLV_KEYBOARD_RIGHT)) moveFusee(maFusee, mat, 1, 2); // bouger a droite
-      if(MLV_get_keyboard_state(MLV_KEYBOARD_LEFT)) moveFusee(maFusee, mat, 1, 1); // bouger a droite
+      if(MLV_get_keyboard_state(SDLK_RIGHT)) moveFusee(maFusee, mat, 1, 2); // bouger a droite
+      if(MLV_get_keyboard_state(SDLK_LEFT)) moveFusee(maFusee, mat, 1, 1); // bouger a droite
       if(liste.nb == 0){
         ligneMonstre(1, liste, mat);
       }
@@ -123,6 +123,6 @@ int menuJeu(int width, int height, fusee maFusee, matrice mat, listeMonstre list
       MLV_wait_milliseconds(200);
     }
   } while (!perdu);
-  if(perdu) return 6;
+  return 6;
   
 }
