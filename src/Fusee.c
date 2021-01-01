@@ -1,4 +1,6 @@
 #include "../inc/Fusee.h"
+#include "../inc/Joueur.h"
+
 
 
 int constructeurFusee(fusee f, int point){

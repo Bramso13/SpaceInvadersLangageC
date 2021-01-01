@@ -1,8 +1,10 @@
 #ifndef DEF_FUSEE
 #define DEF_FUSEE
+
 #include "../inc/Plan.h"
 #include "../inc/Monstre.h"
 #include "../inc/Joueur.h"
+
 #define longueurFusee 3
 #define largeurFusee 2
 

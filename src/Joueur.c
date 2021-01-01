@@ -66,3 +66,8 @@ int setJoueurs(Joueurs js){
     }
     return 1;
 }
+char * getNomJoueur(Joueur j){return j.nomJoueur;};
+int getMeilleurScore(Joueur j){return j.meilleurScore;};
+int getScoreCourant(Joueur j){return j.scoreCourant;};
+void setMeilleurScore(Joueur j, int meilleur){ j.meilleurScore = meilleur;};
+

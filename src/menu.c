@@ -1,5 +1,8 @@
 
 #include "../inc/Menu.h"
+#include "../inc/Fusee.h"
+#include "../inc/Plan.h"
+#include "../inc/Monstre.h"
 #include <MLV/MLV_all.h>
 
 int menu_principal(int width, int height, Joueurs mesJoueurs){
@@ -11,14 +14,14 @@ int menu_principal(int width, int height, Joueurs mesJoueurs){
   int x = 175;
   int y = 50;
 
-  if(getNomJoueur(mesJoueurs.mesJoueurs[1]) != NULL && getNomJoueur(mesJoueurs.mesJoueurs[2]) != NULL){
+  /*if(getNomJoueur(mesJoueurs.mesJoueurs[1]) != NULL && getNomJoueur(mesJoueurs.mesJoueurs[2]) != NULL){
 
     text_1 = getNomJoueur(mesJoueurs.mesJoueurs[1]);
     text_2 = getNomJoueur(mesJoueurs.mesJoueurs[2]);
-  }
+  }*/ // Probleme ici
   
 
-  MLV_Image* image_menu = MLV_load_image("./Images/image_menu.png");
+  MLV_Image* image_menu = MLV_load_image("/home/bramso/Desktop/SpaceInvadersLangageC/src/image_menu.png");
 
   /*erreur s'il n'y a pas l'image*/
   if( !image_menu ){
@@ -104,16 +107,19 @@ int menu_principal(int width, int height, Joueurs mesJoueurs){
   }
 }
 int menuJeu(int width, int height, fusee maFusee, matrice mat, listeMonstre liste, int partiePoint, int nbJoueur, Joueurs mesJ){
-  int perdu = 0;
-  int balle = maFusee->positionFX+longueurFusee+1;
+	printf("je suis par la lafami");
+  int perdu = 0, balle;
   constructeurFusee(maFusee, partiePoint);
   placeFusee(maFusee, mat);
+  balle = maFusee->positionFX+longueurFusee+1;
   Joueur monJ = mesJ.mesJoueurs[nbJoueur];
+  printf("je suis par ici: %d", maFusee->positionFX);
+  
   do
   {
     planVide(mat);
     perdu = partiePoint == 0;
-    
+    printf("je suis vers perdu");
     if(!perdu){
       if(MLV_get_keyboard_state(SDLK_RIGHT) == MLV_PRESSED && !(MLV_get_keyboard_state(SDLK_LEFT) == MLV_PRESSED)) moveFusee(maFusee, mat, 1, 2); // bouger a droite
       if(MLV_get_keyboard_state(SDLK_LEFT) == MLV_PRESSED && !(MLV_get_keyboard_state(SDLK_RIGHT) == MLV_PRESSED)) moveFusee(maFusee, mat, 1, 1); // bouger a droite
@@ -129,7 +135,9 @@ int menuJeu(int width, int height, fusee maFusee, matrice mat, listeMonstre list
       monJ.scoreCourant++;
       MLV_wait_milliseconds(200);
     }
-  } while (!perdu);
-  return 6;
+    printf("je suis a la fin du while");
+  } while (perdu);
+  printf("je suis la\n");
+  return 1;
   
 }

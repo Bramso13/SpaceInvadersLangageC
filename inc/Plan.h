@@ -5,7 +5,7 @@
 #define gWIDTH 350
 #define gHEIGHT 500
 
-typedef int matrice[WIDTH][HEIGHT];
+typedef int matrice[HEIGHT][WIDTH];
 
 void affichePlan(matrice mat);
 void planVide(matrice mat);

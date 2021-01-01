@@ -143,7 +143,7 @@ Monstre identificationMonstre(int x, int y, listeMonstre l){
 }
 void ligneMonstre(int nbDeLigne, listeMonstre l, matrice mat){
     Monstre m=malloc(sizeof(*m));
-    int i = 0,j, nb = WIDTH/(largeurMonstre*2), indexMonstre=0;
+    int i,j, nb = WIDTH/(largeurMonstre*2), indexMonstre=0;
     for(j = 0;j<nbDeLigne;j++){
         for(i=0;i<nb;i++){
             constructeurMonstreBase(m, largeurMonstre*i+1, hauteurMonstre*j+1,indexMonstre,l);
