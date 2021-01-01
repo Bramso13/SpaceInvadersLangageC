@@ -4,13 +4,19 @@
 
 int menu_principal(int width, int height, Joueurs mesJoueurs){
   int largeur_text, hauteur_text, x_clique, y_clique, image_menu_width=300, image_menu_height=150;
-  char * text_1 = "Partie joueur 1", text_2 = "Partie joueur 2", text_3 = "Score", text_4 = "Exit";
+  char * text_1 = "Partie joueur 1";
+  char * text_2 = "Partie joueur 2"; 
+  char * text_3 = "Score"; 
+  char * text_4 = "Exit";
+  int x = 175;
+  int y = 50;
 
+  if(getNomJoueur(mesJoueurs.mesJoueurs[1]) != NULL && getNomJoueur(mesJoueurs.mesJoueurs[2]) != NULL){
 
-
-  
     text_1 = getNomJoueur(mesJoueurs.mesJoueurs[1]);
     text_2 = getNomJoueur(mesJoueurs.mesJoueurs[2]);
+  }
+  
 
   MLV_Image* image_menu = MLV_load_image("./Images/image_menu.png");
 
@@ -97,19 +103,20 @@ int menu_principal(int width, int height, Joueurs mesJoueurs){
     return 1;
   }
 }
-int menuJeu(int width, int height, fusee maFusee, matrice mat, listeMonstre liste, int partiePoint, Joueur monJ){
+int menuJeu(int width, int height, fusee maFusee, matrice mat, listeMonstre liste, int partiePoint, int nbJoueur, Joueurs mesJ){
   int perdu = 0;
   int balle = maFusee->positionFX+longueurFusee+1;
   constructeurFusee(maFusee, partiePoint);
   placeFusee(maFusee, mat);
+  Joueur monJ = mesJ.mesJoueurs[nbJoueur];
   do
   {
     planVide(mat);
     perdu = partiePoint == 0;
     
     if(!perdu){
-      if(MLV_get_keyboard_state(SDLK_RIGHT)) moveFusee(maFusee, mat, 1, 2); // bouger a droite
-      if(MLV_get_keyboard_state(SDLK_LEFT)) moveFusee(maFusee, mat, 1, 1); // bouger a droite
+      if(MLV_get_keyboard_state(SDLK_RIGHT) == MLV_PRESSED && !(MLV_get_keyboard_state(SDLK_LEFT) == MLV_PRESSED)) moveFusee(maFusee, mat, 1, 2); // bouger a droite
+      if(MLV_get_keyboard_state(SDLK_LEFT) == MLV_PRESSED && !(MLV_get_keyboard_state(SDLK_RIGHT) == MLV_PRESSED)) moveFusee(maFusee, mat, 1, 1); // bouger a droite
       if(liste.nb == 0){
         ligneMonstre(1, liste, mat);
       }
