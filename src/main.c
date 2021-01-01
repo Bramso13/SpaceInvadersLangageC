@@ -22,6 +22,9 @@ printf("avant tout");
 
   y = height-(image_height+10);
   x = width/2-(image_width/2);
+  
+  
+
 
 printf("avant fusee");
   fusee maFusee = malloc(sizeof(maFusee));
@@ -29,6 +32,7 @@ printf("avant fusee");
   matrice mat;
   printf("avant avant liste");
   planVide(mat);
+  
 
     listeMonstre liste;
     Joueurs mesJoueurs = getMesJoueurs();

@@ -24,13 +24,13 @@ void setPositionY(Monstre m, int position){
     }
 }
 
-int constructeurMonstreBase(Monstre m, int x, int y, int index, listeMonstre l){
+int constructeurMonstreBase(Monstre m, int x, int y, int index, listeMonstre l, int * nbListe){
     setPointVie(m, 3);
     m->type = 0;
     setPositionX(m, x);
     setPositionY(m, y);
 
-    addMonstre(m, l, index);
+    addMonstre(m, l, index, nbListe);
     return 1;
 
 }
@@ -43,59 +43,60 @@ int placeMonstre(Monstre m, matrice mat){
     switch (m->type)
     {
     case 0: // monstre de type de base
+    	printf("le x = %d et le y = %d", m->positionX, m->positionY);
         mat[m -> positionY][m -> positionX]= getPointVie(m);
-         mat[m -> positionY-1][m -> positionX]= getPointVie(m);
-         mat[m -> positionY-3][m -> positionX]= getPointVie(m);
-         mat[m -> positionY-4][m -> positionX]= getPointVie(m);
-         mat[m -> positionY+1][m -> positionX]= getPointVie(m);
-         mat[m -> positionY+3][m -> positionX]= getPointVie(m);
-         mat[m -> positionY+4][m -> positionX]= getPointVie(m);
-
+         mat[m -> positionY][m -> positionX-1]= getPointVie(m);
+         mat[m -> positionY][m -> positionX-3]= getPointVie(m);
+         mat[m -> positionY][m -> positionX-4]= getPointVie(m);
          mat[m -> positionY][m -> positionX+1]= getPointVie(m);
-         mat[m -> positionY-1][m -> positionX+1]= getPointVie(m);
-         mat[m -> positionY-2][m -> positionX+1]= getPointVie(m);
-         mat[m -> positionY-3][m -> positionX+1] = getPointVie(m);
-         mat[m -> positionY+1][m -> positionX+1]= getPointVie(m);
-         mat[m -> positionY+2][m -> positionX+1]= getPointVie(m);
-         mat[m -> positionY+3][m -> positionX+1]= getPointVie(m);
+         mat[m -> positionY][m -> positionX+3]= getPointVie(m);
+         mat[m -> positionY][m -> positionX+4]= getPointVie(m);
 
-         mat[m -> positionY-2][m -> positionX+2]= getPointVie(m);
+         mat[m -> positionY+1][m -> positionX]= getPointVie(m);
+         mat[m -> positionY+1][m -> positionX-1]= getPointVie(m);
+         mat[m -> positionY+1][m -> positionX-2]= getPointVie(m);
+         mat[m -> positionY+1][m -> positionX-3] = getPointVie(m);
+         mat[m -> positionY+1][m -> positionX+1]= getPointVie(m);
+         mat[m -> positionY+1][m -> positionX+2]= getPointVie(m);
+         mat[m -> positionY+1][m -> positionX+3]= getPointVie(m);
+
+         mat[m -> positionY+2][m -> positionX-2]= getPointVie(m);
          mat[m -> positionY+2][m -> positionX+2]= getPointVie(m);
 
-         mat[m -> positionY-3][m -> positionX+3]= getPointVie(m);
+         mat[m -> positionY+3][m -> positionX-3]= getPointVie(m);
          mat[m -> positionY+3][m -> positionX+3]= getPointVie(m);
 
-         mat[m -> positionY][m -> positionX-1]= getPointVie(m);
+         mat[m -> positionY-1][m -> positionX]= getPointVie(m);
          mat[m -> positionY-1][m -> positionX-1]= getPointVie(m);
-         mat[m -> positionY-2][m -> positionX-1]= getPointVie(m);
-         mat[m -> positionY-3][m -> positionX-1]= getPointVie(m);
-         mat[m -> positionY-4][m -> positionX-1]= getPointVie(m);
-         mat[m -> positionY-5][m -> positionX-1]= getPointVie(m);
-         mat[m -> positionY+1][m -> positionX-1]= getPointVie(m);
-         mat[m -> positionY+2][m -> positionX-1]= getPointVie(m);
-         mat[m -> positionY+3][m -> positionX-1]= getPointVie(m);
-         mat[m -> positionY+4][m -> positionX-1]= getPointVie(m);
-         mat[m -> positionY+5][m -> positionX-1]= getPointVie(m);
-
-         mat[m -> positionY][m -> positionX-2]= getPointVie(m);
          mat[m -> positionY-1][m -> positionX-2]= getPointVie(m);
+         mat[m -> positionY-1][m -> positionX-3]= getPointVie(m);
+         mat[m -> positionY-1][m -> positionX-4]= getPointVie(m);
+         mat[m -> positionY-1][m -> positionX-5]= getPointVie(m);
+         mat[m -> positionY-1][m -> positionX+1]= getPointVie(m);
+         mat[m -> positionY-1][m -> positionX+2]= getPointVie(m);
+         mat[m -> positionY-1][m -> positionX+3]= getPointVie(m);
+         mat[m -> positionY-1][m -> positionX+4]= getPointVie(m);
+         mat[m -> positionY-1][m -> positionX+5]= getPointVie(m);
+
+         mat[m -> positionY-2][m -> positionX]= getPointVie(m);
+         mat[m -> positionY-2][m -> positionX-1]= getPointVie(m);
          mat[m -> positionY-2][m -> positionX-2]= getPointVie(m);
-         mat[m -> positionY-3][m -> positionX-2]= getPointVie(m);
-         mat[m -> positionY-5][m -> positionX-2]= getPointVie(m);
-         mat[m -> positionY+1][m -> positionX-2]= getPointVie(m);
-         mat[m -> positionY+2][m -> positionX-2]= getPointVie(m);
-         mat[m -> positionY+3][m -> positionX-2]= getPointVie(m);
-         mat[m -> positionY+5][m -> positionX-2]= getPointVie(m);
+         mat[m -> positionY-2][m -> positionX-3]= getPointVie(m);
+         mat[m -> positionY-2][m -> positionX-5]= getPointVie(m);
+         mat[m -> positionY-2][m -> positionX+1]= getPointVie(m);
+         mat[m -> positionY-2][m -> positionX+2]= getPointVie(m);
+         mat[m -> positionY-2][m -> positionX+3]= getPointVie(m);
+         mat[m -> positionY-2][m -> positionX+5]= getPointVie(m);
 
          mat[m -> positionY-3][m -> positionX-3]= getPointVie(m);
-         mat[m -> positionY-5][m -> positionX-3]= getPointVie(m);
-         mat[m -> positionY+3][m -> positionX-3]= getPointVie(m);
-         mat[m -> positionY+5][m -> positionX-3]= getPointVie(m);
+         mat[m -> positionY-3][m -> positionX-5]= getPointVie(m);
+         mat[m -> positionY-3][m -> positionX+3]= getPointVie(m);
+         mat[m -> positionY-3][m -> positionX+5]= getPointVie(m);
 
-         mat[m -> positionY-1][m -> positionX-4]= getPointVie(m);
-         mat[m -> positionY-2][m -> positionX-4]= getPointVie(m);
-         mat[m -> positionY+1][m -> positionX-4]= getPointVie(m);
-         mat[m -> positionY+2][m -> positionX-4]= getPointVie(m);
+         mat[m -> positionY-4][m -> positionX-1]= getPointVie(m);
+         mat[m -> positionY-4][m -> positionX-2]= getPointVie(m);
+         mat[m -> positionY-4][m -> positionX+1]= getPointVie(m);
+         mat[m -> positionY-4][m -> positionX+2]= getPointVie(m);
         break;
 
     default:
@@ -109,7 +110,7 @@ int moveMonstre(Monstre m, matrice mat, int intensite){
 
     setPositionY(m, m->positionY+intensite);
     placeMonstre(m, mat);
-    if(mat[m->positionX][m->positionY-hauteurMonstre-1] == 15){
+    if(mat[m->positionY+hauteurMonstre+1][m->positionX] == 15){
         return 1;
     }else{
         return 0;
@@ -120,20 +121,21 @@ int estVivant(Monstre m){
     return getPointVie(m) <= 0;
 }
 
-void addMonstre(Monstre m, listeMonstre l, int index){
+void addMonstre(Monstre m, listeMonstre l, int index, int * nbListe){
 
     if(estVivant(m)){
-         l.listeMonstre[index] = m;
+         l[index] = m;
+         *nbListe = *nbListe+1;
     }
 }
 
 Monstre identificationMonstre(int x, int y, listeMonstre l){
   int i;
   Monstre m=malloc(sizeof(*m));
-  for(i=0;i!=MAXMONSTRE;i++){
-      if((x > l.listeMonstre[i]->positionX-largeurMonstre && x < l.listeMonstre[i]->positionX+largeurMonstre) &&
-      (y > l.listeMonstre[i]->positionY-hauteurMonstre && y < l.listeMonstre[i]->positionY+hauteurMonstre)){
-          return l.listeMonstre[i];
+  for(i=0;i<MAXMONSTRE;i++){
+      if((x > l[i]->positionX-largeurMonstre && x < l[i]->positionX+largeurMonstre) &&
+      (y > l[i]->positionY-hauteurMonstre && y < l[i]->positionY+hauteurMonstre)){
+          return l[i];
       }
     
     }
@@ -141,43 +143,43 @@ Monstre identificationMonstre(int x, int y, listeMonstre l){
 
   
 }
-void ligneMonstre(int nbDeLigne, listeMonstre l, matrice mat){
+void ligneMonstre(int nbDeLigne, listeMonstre l, matrice mat, int * nbListe){
     Monstre m=malloc(sizeof(*m));
     int i,j, nb = WIDTH/(largeurMonstre*2), indexMonstre=0;
-    for(j = 0;j<nbDeLigne;j++){
-        for(i=0;i<nb;i++){
-            constructeurMonstreBase(m, largeurMonstre*i+1, hauteurMonstre*j+1,indexMonstre,l);
+    for(j = 1;j<=nbDeLigne;j++){
+        for(i=1;i<=nb;i++){
+            constructeurMonstreBase(m, (largeurMonstre*i*2)+1, (hauteurMonstre*j)+1,indexMonstre,l, nbListe);
             placeMonstre(m, mat);
             indexMonstre++;
         }
     }
     
 }
-void degat(Monstre m, listeMonstre liste){
+void degat(Monstre m, listeMonstre liste, int * nbListe){
     setPointVie(m, m->pointVie-1);
     if(!estVivant(m)){
-        actualiseListe(liste);
+        actualiseListe(liste, nbListe);
     }
 }
-void actualiseListe(listeMonstre liste){
+void actualiseListe(listeMonstre liste, int * nbListe){
 
     int i, j;
     for(i=0;i<MAXMONSTRE;i++){
-        if(liste.listeMonstre[i]->pointVie == 0){
-        	free(liste.listeMonstre[i]);
-            liste.nb--;
+        if(liste[i]->pointVie == 0){
+        	free(liste[i]);
+            *nbListe = *nbListe-1;
             for(j=i-1; j<MAXMONSTRE-1; j++)
             {
-                liste.listeMonstre[i] = liste.listeMonstre[j + 1];
+                liste[i] = liste[j + 1];
             }
         }
     }
 }
-int moveToutMonstre(listeMonstre liste, matrice mat){
+int moveToutMonstre(listeMonstre liste, matrice mat, int * nbListe){
     int i, test=0;
 
-    for(i=0;i<liste.nb;i++){
-        if(moveMonstre(liste.listeMonstre[i], mat, 1)) test=1;
+    for(i=0;i<MAXMONSTRE;i++){
+        if(moveMonstre(liste[i], mat, 1)) test=1;
     }
     return test;
 }

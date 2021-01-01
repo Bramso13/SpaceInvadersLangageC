@@ -24,12 +24,12 @@ void setY(fusee f, int y){
 
 void placeFusee(fusee f, matrice mat){
     int x = f->positionFX, y=f->positionFY;
-    mat[x][y] = 15;mat[x+1][y] = 15;mat[x-1][y] = 15;
-    mat[x][y-1] = 15;mat[x+1][y-1] = 15;mat[x-1][y-1] = 15;
-    mat[x][y-2] = 15;mat[x+1][y-2] = 15;mat[x-1][y-2] = 15;
-    mat[x][y+1] = 15;mat[x+1][y+1] = 15;mat[x-1][y+1] = 15;
-    mat[x][y+2] = 15;mat[x+1][y+2] = 15;mat[x-1][y+2] = 15;
-    mat[x][y+3] = 15;
+    mat[y][x] = 15;mat[y][x+1] = 15;mat[y][x-1] = 15;
+    mat[y-1][x] = 15;mat[y-1][x+1] = 15;mat[y-1][x-1] = 15;
+    mat[y-2][x] = 15;mat[y-2][x+1] = 15;mat[y-2][x-1] = 15;
+    mat[y+1][x] = 15;mat[y+1][x+1] = 15;mat[y+1][x-1] = 15;
+    mat[y+2][x] = 15;mat[y+2][x+1] = 15;mat[y+2][x-1] = 15;
+    mat[y+3][x] = 15;
 }
 
 void moveFusee(fusee f, matrice m, int intensite, int direction){
@@ -51,27 +51,27 @@ void moveFusee(fusee f, matrice m, int intensite, int direction){
     }
 }
 
-void attaqueFusee(fusee f, matrice mat, listeMonstre l, int * i, Joueur monJ){
+void attaqueFusee(fusee f, matrice mat, listeMonstre l, int * i, Joueur monJ, int * nbListe){
 
     Monstre m;
 
     if(*i < HEIGHT && *i > 0){
-            if (mat[*i][f->positionFY] != 0)
+            if (mat[*i][f->positionFX] != 0)
             {
                 m = identificationMonstre(*i, f->positionFY, l);
-                degat(m, l);
+                degat(m, l, nbListe);
 
-                *i = f->positionFX+longueurFusee+1;
+                *i = f->positionFY-longueurFusee-1;
                 monJ.scoreCourant = monJ.scoreCourant+20;
             }
 
-            if(*i == f->positionFX+longueurFusee+1) mat[*i][f->positionFY] = 1;
+            if(*i == f->positionFY-longueurFusee-1) mat[*i][f->positionFX] = 1;
             else{
-                mat[*i][f->positionFY] = 1;
-                mat[*i-1][f->positionFY] = 0;
+                mat[*i][f->positionFX] = 1;
+                mat[*i+1][f->positionFX] = 0;
             }
     }else{
-        *i = f->positionFX+longueurFusee+1;
+        *i = f->positionFY-longueurFusee-1;
     }
     affichePlan(mat);
 

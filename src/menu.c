@@ -108,10 +108,10 @@ int menu_principal(int width, int height, Joueurs mesJoueurs){
 }
 int menuJeu(int width, int height, fusee maFusee, matrice mat, listeMonstre liste, int partiePoint, int nbJoueur, Joueurs mesJ){
 	printf("je suis par la lafami");
-  int perdu = 0, balle;
+  int perdu = 0, balle, nbListe=0;
   constructeurFusee(maFusee, partiePoint);
   placeFusee(maFusee, mat);
-  balle = maFusee->positionFX+longueurFusee+1;
+  balle = maFusee->positionFY-longueurFusee-1;
   Joueur monJ = mesJ.mesJoueurs[nbJoueur];
   printf("je suis par ici: %d", maFusee->positionFX);
   
@@ -119,24 +119,26 @@ int menuJeu(int width, int height, fusee maFusee, matrice mat, listeMonstre list
   {
     planVide(mat);
     perdu = partiePoint == 0;
-    printf("je suis vers perdu");
+    printf("je suis vers perdu\n liste.nb = %d \n", nbListe);
     if(!perdu){
+    placeFusee(maFusee, mat);
       if(MLV_get_keyboard_state(SDLK_RIGHT) == MLV_PRESSED && !(MLV_get_keyboard_state(SDLK_LEFT) == MLV_PRESSED)) moveFusee(maFusee, mat, 1, 2); // bouger a droite
       if(MLV_get_keyboard_state(SDLK_LEFT) == MLV_PRESSED && !(MLV_get_keyboard_state(SDLK_RIGHT) == MLV_PRESSED)) moveFusee(maFusee, mat, 1, 1); // bouger a droite
-      if(liste.nb == 0){
-        ligneMonstre(1, liste, mat);
+      if(nbListe == 0){
+        ligneMonstre(1, liste, mat, &nbListe);
       }
-      if(moveToutMonstre(liste, mat)){
+      if(moveToutMonstre(liste, mat, &nbListe)){
          partiePoint--;
          maFusee->pointFVie--;
       }
-      attaqueFusee(maFusee, mat, liste, &balle, monJ);
-      balle++;
+      attaqueFusee(maFusee, mat, liste, &balle, monJ, &nbListe);
+      balle--;
       monJ.scoreCourant++;
+      MLV_actualise_window();
       MLV_wait_milliseconds(200);
     }
     printf("je suis a la fin du while");
-  } while (perdu);
+  } while (!perdu);
   printf("je suis la\n");
   return 1;
   

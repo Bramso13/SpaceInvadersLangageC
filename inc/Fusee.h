@@ -19,7 +19,7 @@ struct Fusee
 };
 
 int constructeurFusee(fusee f, int point);
-void attaqueFusee(fusee f, matrice mat, listeMonstre l, int * i, Joueur monJ);
+void attaqueFusee(fusee f, matrice mat, listeMonstre l, int * i, Joueur monJ, int * nbListe);
 void moveFusee(fusee f, matrice m, int intensite, int direction);
 void placeFusee(fusee f, matrice mat);
 void setY(fusee f, int y);
