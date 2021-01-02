@@ -51,28 +51,29 @@ void moveFusee(fusee f, matrice m, int intensite, int direction){
     }
 }
 
-void attaqueFusee(fusee f, matrice mat, listeMonstre l, int * i, Joueur monJ){
+void attaqueFusee(fusee f, matrice mat, matrice l, int * i, Joueur monJ, int * xBalle){
 
     int m;
 
     if(*i < HEIGHT && *i > 0){
-            if (mat[*i-1][f->positionFX] != 0)
+            if (mat[*i-1][*xBalle] != 0)
             {
-            	printf("test degat\n");
-                m = identificationMonstre(*i, f->positionFY, l);
+                m = identificationMonstre(*xBalle,*i, l);
                 degat(m, l);
 
                 *i = f->positionFY-longueurFusee-1;
                 monJ.scoreCourant = monJ.scoreCourant+20;
+                *xBalle = f->positionFX;
             }
 
-            if(*i == f->positionFY-longueurFusee-1) mat[*i][f->positionFX] = 1;
+            if(*i == f->positionFY-longueurFusee-1) mat[*i][*xBalle] = 1;
             else{
-                mat[*i][f->positionFX] = 1;
-                mat[*i+1][f->positionFX] = 0;
+                mat[*i][*xBalle] = 5;
+                mat[*i+1][*xBalle] = 0;
             }
     }else{
         *i = f->positionFY-longueurFusee-1;
+        *xBalle = f->positionFX;
     }
     affichePlan(mat);
 

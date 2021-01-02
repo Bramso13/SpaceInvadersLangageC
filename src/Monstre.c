@@ -4,42 +4,15 @@
 #include <stdlib.h>
 #include <MLV/MLV_all.h>
 
-int getPointVie(Monstre m){return m->pointVie;}
 
-int getPositionX(Monstre m){return m->positionX;}
-int getPositionY(Monstre m){return m->positionY;}
 
-void setPointVie(Monstre m, int point){m->pointVie = point;}
 
-void setPositionX(Monstre m, int position){
-    if((position+largeurMonstre) < WIDTH && (position-largeurMonstre) > 0){
-        m->positionX = position;
-    }
-    
-    }
-void setPositionY(Monstre m, int position){
 
-    if((position+hauteurMonstre) < HEIGHT && (position-hauteurMonstre) > 0){
-        m->positionY = position;
-    }
-}
 
-int constructeurMonstreBase(Monstre m, int x, int y, int index, listeMonstre l){
-    setPointVie(m, 3);
-    m->type = 0;
-    setPositionX(m, x);
-    setPositionY(m, y);
-
-    addMonstre(m, l, index);
-    free(m);
-    return 1;
-
-}
 
 int placeMonstre(int x,int y,int pointVie,int type, matrice mat){
 
 
-    if(m == NULL) return 0;
 
     switch (type)
     {
@@ -107,22 +80,8 @@ int placeMonstre(int x,int y,int pointVie,int type, matrice mat){
     return 1;
 }
 
-// int moveMonstre(Monstre m, matrice mat, int intensite){
 
-//     if(estVivant(m)){
-    	
-//     	setPositionY(m, m->positionY+intensite);
-// 	    placeMonstre(m, mat);
-// 	    if(mat[m->positionY+hauteurMonstre+1][m->positionX] == 15 || mat[m->positionY][m->positionX+largeurMonstre+1]){
-// 		return 1;
-// 	    }else{
-// 		return 0;
-// 	    }
-//     }
-    
-//     return 0;
-// }
-int longueurListe(listeMonstre l){
+int longueurListe(matrice l){
 	int i, k=0;
 	for(i=0;i<MAXMONSTRE;i++){
 		if(l[i][2] > 0) k++;
@@ -130,10 +89,8 @@ int longueurListe(listeMonstre l){
 	return k;
 }
 
-int estVivant(Monstre m){
-    return getPointVie(m) > 0;
-}
-void listeVide(listeMonstre l){
+
+void listeVide(matrice l){
 
 	int i, j;
 	
@@ -143,26 +100,19 @@ void listeVide(listeMonstre l){
 		
 	}
 }
-void addMonstre(Monstre m, listeMonstre l, int index){
+void addMonstre(int x, int y, int point, int type, matrice l, int index){
 
-	int i;
-    if(estVivant(m)){
-         for(i=0;i<MAXMONSTRE;i++){
-         	if(!estVivant(l[i])){
-         		l[i][2] = m->pointVie;
-         		l[i][3] = m->type;
-         		l[i][0] = m->positionX;
-         		l[i][1] = m->positionY;
-         	}
-         }
-    }
+	l[index][0] = x;
+	l[index][1] = y;
+	l[index][2] = point;
+	l[index][3] = type;
 }
 
-int identificationMonstre(int x, int y, listeMonstre l){
+int identificationMonstre(int x, int y, matrice l){
   int i;
   for(i=0;i<MAXMONSTRE;i++){
-      if((y > l[i][0]-largeurMonstre && y < l[i][0]+largeurMonstre) &&
-      (x > l[i][1]-hauteurMonstre && x < l[i][1]+hauteurMonstre)){
+      if((x > l[i][0]-largeurMonstre && x < l[i][0]+largeurMonstre) &&
+      (y > l[i][1]-hauteurMonstre && y < l[i][1]+hauteurMonstre)){
           return i;
       }
     
@@ -171,45 +121,55 @@ int identificationMonstre(int x, int y, listeMonstre l){
 
   
 }
-void ligneMonstre(int nbDeLigne, listeMonstre l, matrice mat){
-    Monstre m=malloc(sizeof(*m));
-    int i,j, nb = WIDTH/(largeurMonstre*2), indexMonstre=0;
+void ligneMonstre(int nbDeLigne, matrice l, matrice mat){
+    int i,j, nb = WIDTH/(largeurMonstre*2+1), indexMonstre=0;
     for(j = 1;j<=nbDeLigne;j++){
-            constructeurMonstreBase(m, xUn, (hauteurMonstre*j)+1,indexMonstre,l);
-            placeMonstre(m, mat);
-            constructeurMonstreBase(m, xDeux, (hauteurMonstre*j)+1,indexMonstre,l);
-            placeMonstre(m, mat);
-            printf("x = %d et y = %d\n", m->positionX, m->positionY);
-            indexMonstre++;
+    	for(i=1;i<nb;i++){
+    		l[indexMonstre][0] = (largeurMonstre*2*i)+1;
+    		l[indexMonstre][1] = (hauteurMonstre*j*2)+1;
+    		l[indexMonstre][2] = 3;
+    		l[indexMonstre][3] = 0;
+    		indexMonstre++;
+    	}
+            
     }
     
 }
-void degat(int m, listeMonstre liste){
-    liste[m][2] = liste[m][2]-1;
-    printf("\npoint de vie = %d\n", liste[m][2]);
+void degat(int m, matrice liste){
+	if(m>=0) liste[m][2] = liste[m][2]-1;
+    	if(liste[m][2] <= 0) kill(m, liste);
     
 }
+void kill(int i, matrice liste){
 
-int moveToutMonstre(listeMonstre liste, matrice mat){
-    int i, test=0;
+	liste[i][0] = 0;
+	liste[i][1] = 0;
+	liste[i][2] = 0;
+	liste[i][3] = 0;
+}
+int moveToutMonstre(matrice liste, matrice mat){
+    int i, test=0, x, y, j, k;
 
     for(i=0;i<MAXMONSTRE;i++){
         if(liste[i][2] > 0){
-    	    liste[i][1]++;
-		    placeMonstre(liste[i][0],liste[i][1],liste[i][2],liste[i][3], mat);
-		    if(mat[liste[i][1]+hauteurMonstre+1][liste[i][0] == 15 || mat[liste[i][1]][liste[i][0]+largeurMonstre+1]==15)
-                test=1;
-            else 
-                test=0;
+    	    	liste[i][1]++;
+		    //placeMonstre(liste[i][0],liste[i][1],liste[i][2],liste[i][3], mat);
+		    x = liste[i][0]; y = liste[i][1];
+		    for(j=0;j<largeurMonstre+1;j++){
+		    	for(k=0;k<hauteurMonstre+1;k++){
+		    		if(mat[y+k][x+j] == 15){ test=1; kill(i,liste);}
+		    	}
+		    }
+		    if(y+hauteurMonstre+1 >= HEIGHT) kill(i, liste);
 	    }
     }
     return test;
 }
-void placeTouteListe(listeMonstre l, matrice mat){
+void placeTouteListe(matrice l, matrice mat){
 
 	int i;
 	for(i=0;i<MAXMONSTRE;i++) 
-        placeMonstre(liste[i][0],liste[i][1],liste[i][2],liste[i][3], mat);
+        	placeMonstre(l[i][0],l[i][1],l[i][2],l[i][3], mat);
 
 }
 

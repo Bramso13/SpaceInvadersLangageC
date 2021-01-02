@@ -7,11 +7,10 @@
 #include "../inc/Joueur.h"
 
 int main(){
-printf("avant tout");
+
   int fenetre = 1;
   int width = 350, height = 500;
-  int image_width= 100, image_height= 100;
-  int x, y, score = 0, partiePoint = 3, avance = 30, vitesse=0;
+  int partiePoint = 3;
 
   /*créé et afficher la fenetre */
   MLV_create_window("Space invaders", "space invaders", width, height);
@@ -19,35 +18,32 @@ printf("avant tout");
   /*couleur de la fenetre*/
   MLV_clear_window(MLV_COLOR_BLACK);
 
-
-  y = height-(image_height+10);
-  x = width/2-(image_width/2);
   
   
 
 
-printf("avant fusee");
-  fusee maFusee = malloc(sizeof(maFusee));
-  printf("avant matrice");
+
+  
   matrice mat;
-  printf("avant avant liste");
   planVide(mat);
   
 
-    listeMonstre liste;
-    listeVide(liste);
+
     Joueurs mesJoueurs = getMesJoueurs();
     
-
+	
   while (fenetre != 0){
     MLV_clear_window(MLV_COLOR_BLACK);
-    printf("souci");
     switch (fenetre){
     case 1 : fenetre = menu_principal(width,height,mesJoueurs);
       break;
-    case 3 : fenetre = menuJeu(width,height,maFusee,mat,liste,partiePoint,1, mesJoueurs);
+    case 3 : 
+    	partiePoint =3;
+    	fenetre = menuJeu(width,height,mat,partiePoint,1, mesJoueurs);
       break;
-    case 4 : fenetre = menuJeu(width,height,maFusee,mat,liste,partiePoint,2, mesJoueurs);
+    case 4 : 
+    partiePoint = 3;
+    fenetre = menuJeu(width,height,mat,partiePoint,2, mesJoueurs);
       break;
     default : fenetre = 0;
     }

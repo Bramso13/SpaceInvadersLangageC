@@ -106,50 +106,52 @@ int menu_principal(int width, int height, Joueurs mesJoueurs){
     return 1;
   }
 }
-int menuJeu(int width, int height, fusee maFusee, matrice mat, listeMonstre liste, int partiePoint, int nbJoueur, Joueurs mesJ){
+int menuJeu(int width, int height, matrice mat, int partiePoint, int nbJoueur, Joueurs mesJ){
 	
-  int perdu = 0, balle, vitesse =0;
+  int perdu = 0, balle, vitesse =0, xBalle, level = 5;
+  fusee maFusee = malloc(sizeof(maFusee));
   constructeurFusee(maFusee, partiePoint);
   placeFusee(maFusee, mat);
   balle = maFusee->positionFY-longueurFusee-1;
+  xBalle = maFusee->positionFX;
   Joueur monJ = mesJ.mesJoueurs[nbJoueur];
+  matrice liste;
+  planVide(liste);
   
   
-  do
-  {
-    planVide(mat);
-    perdu = partiePoint == 0;
+  while(!perdu){
+  	perdu = partiePoint == 0;
     
     if(!perdu){
     placeFusee(maFusee, mat);
-    
+    placeTouteListe(liste, mat);
       if(MLV_get_keyboard_state(SDLK_RIGHT) == MLV_PRESSED && !(MLV_get_keyboard_state(SDLK_LEFT) == MLV_PRESSED)) moveFusee(maFusee, mat, 1, 2); // bouger a droite
       if(MLV_get_keyboard_state(SDLK_LEFT) == MLV_PRESSED && !(MLV_get_keyboard_state(SDLK_RIGHT) == MLV_PRESSED)) moveFusee(maFusee, mat, 1, 1); // bouger a droite
       if(longueurListe(liste) == 0){
-        ligneMonstre(1, liste, mat);
+        ligneMonstre(2, liste, mat);
       }
-      if(vitesse == 5){
+      if(vitesse == level){
       vitesse = 0;
-      	printf("vitesse = %d", vitesse);
-      	if(moveToutMonstre(liste, mat)){
+      	
+      	if(moveToutMonstre(liste, mat) == 1){
          partiePoint--;
          maFusee->pointFVie--;
          
       }
       }
-      
-      attaqueFusee(maFusee, mat, liste, &balle, monJ);
+      if(monJ.scoreCourant > 1000) level = 3;
+      attaqueFusee(maFusee, mat, liste, &balle, monJ, &xBalle);
       balle--;
       monJ.scoreCourant++;
       MLV_actualise_window();
       vitesse++;
-      placeTouteListe(liste, mat);
-      printf("nombre de monstre = %d\n", longueurListe(liste));
-      MLV_wait_milliseconds(50);
+      printf("score : %d\n", monJ.scoreCourant);
+      planVide(mat);
+      MLV_wait_milliseconds(20);
     }
     
-  } while (!perdu);
-  
+  }
+  perdu = 0;
   return 1;
   
 }

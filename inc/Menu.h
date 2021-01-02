@@ -7,5 +7,5 @@
 
 
 int menu_principal(int width, int height, Joueurs mesJoueurs);
-int menuJeu(int width, int height, fusee maFusee, matrice mat, listeMonstre liste, int partiePoint, int nbJoueur, Joueurs mesJ);
+int menuJeu(int width, int height, matrice mat, int partiePoint, int nbJoueur, Joueurs mesJ);
 #endif
