@@ -12,7 +12,7 @@
 #define MAXMONSTRE 10
 
 typedef struct Monstre * Monstre;
-typedef Monstre listeMonstre[MAXMONSTRE];
+typedef int listeMonstre[MAXMONSTRE][4];
 
 
 struct Monstre
@@ -36,7 +36,7 @@ void setPointVie(Monstre m, int point);
 int longueurListe(listeMonstre l);
 void setPositionX(Monstre m, int position);
 void setPositionY(Monstre m, int position);
-
+int placeMonstre(int x,int y,int pointVie,int type, matrice mat);
 int constructeurMonstreBase(Monstre m, int x, int y, int index, listeMonstre l);
 int identificationMonstre(int x, int y, listeMonstre l);
 void degat(int m, listeMonstre liste);
