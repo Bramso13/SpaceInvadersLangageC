@@ -35,7 +35,9 @@ printf("avant fusee");
   
 
     listeMonstre liste;
+    listeVide(liste);
     Joueurs mesJoueurs = getMesJoueurs();
+    
 
   while (fenetre != 0){
     MLV_clear_window(MLV_COLOR_BLACK);

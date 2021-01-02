@@ -23,7 +23,7 @@ void affichePlan(matrice mat){
         vraiJ = gHEIGHT/80*i;
         for(j=0;j<WIDTH;j++){
             if(mat[i][j] == 1) couleur = MLV_COLOR_WHITE;
-            if(mat[i][j] == 2) couleur = MLV_rgba(0, 1, 0, 1);
+            if(mat[i][j] == 2) couleur = MLV_COLOR_BLUE;
             if(mat[i][j] == 3) couleur = MLV_COLOR_WHITE;
             if(mat[i][j] == 15) couleur = MLV_COLOR_WHITE;
             if(mat[i][j] == 0) couleur = MLV_COLOR_BLACK;

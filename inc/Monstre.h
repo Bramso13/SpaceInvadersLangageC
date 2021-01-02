@@ -7,6 +7,8 @@
 
 #define largeurMonstre 6
 #define hauteurMonstre 4
+#define xUn 13
+#define xDeux 25
 #define MAXMONSTRE 10
 
 typedef struct Monstre * Monstre;
@@ -19,26 +21,28 @@ struct Monstre
     int type;
     int positionX;
     int positionY;
+    int idMonstre;
 };
 
 
-int getPointVie(Monstre m);
-void addMonstre(Monstre m, listeMonstre l, int index, int * nbListe);
 
+int getPointVie(Monstre m);
+void addMonstre(Monstre m, listeMonstre l, int index);
+void placeTouteListe(listeMonstre l, matrice mat);
 int getPositionX(Monstre m);
 int getPositionY(Monstre m);
-
+void listeVide(listeMonstre l);
 void setPointVie(Monstre m, int point);
-
+int longueurListe(listeMonstre l);
 void setPositionX(Monstre m, int position);
 void setPositionY(Monstre m, int position);
 
-int constructeurMonstreBase(Monstre m, int x, int y, int index, listeMonstre l, int * nbListe);
-Monstre identificationMonstre(int x, int y, listeMonstre l);
-void degat(Monstre m, listeMonstre liste, int * nbListe);
+int constructeurMonstreBase(Monstre m, int x, int y, int index, listeMonstre l);
+int identificationMonstre(int x, int y, listeMonstre l);
+void degat(int m, listeMonstre liste);
 
 int estVivant(Monstre m);
-void ligneMonstre(int nbDeLigne, listeMonstre l, matrice mat, int * nbListe);
-void actualiseListe(listeMonstre liste, int * nbListe);
-int moveToutMonstre(listeMonstre liste, matrice mat, int * nbListe);
+void ligneMonstre(int nbDeLigne, listeMonstre l, matrice mat);
+void actualiseListe(listeMonstre liste);
+int moveToutMonstre(listeMonstre liste, matrice mat);
 #endif
