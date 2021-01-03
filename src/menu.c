@@ -3,6 +3,7 @@
 #include "../inc/Fusee.h"
 #include "../inc/Plan.h"
 #include "../inc/Monstre.h"
+#include <string.h>
 #include <MLV/MLV_all.h>
 
 int menu_principal(int width, int height, Joueurs mesJoueurs){
@@ -108,23 +109,10 @@ int menu_principal(int width, int height, Joueurs mesJoueurs){
 }
 int menu_pause(int width, int height){
   int largeur_text, hauteur_text, x_clique, y_clique;
-  int image_menu_width=300, image_menu_height=150;
-  char * text_1 = "Partie joueur 1";
-  char * text_2 = "Partie joueur 2";
+  char * text_1 = "Reprendre";
+  char * text_2 = "Menu principal";
   
-  MLV_Image* image_menu = MLV_load_image("./Images/image_menu.png");
-
-  /*erreur s'il n'y a pas l'image*/
-  if( !image_menu ){
-    fprintf(stderr, "Image manquante.\n");
-    exit(EXIT_FAILURE);
-  }
-  /*recuperer les tailles*/
-  MLV_resize_image_with_proportions( image_menu, image_menu_width, image_menu_height);
-  /*appliquer les tailles au images*/
-  MLV_get_image_size(image_menu, &image_menu_width, &image_menu_height);
-  /*affichage*/
-  MLV_draw_image(image_menu,55,20);
+  
 
   /*rectangle bouton*/
   /*milieu de la fenêtre 175*/
@@ -146,7 +134,7 @@ int menu_pause(int width, int height){
     MLV_get_size_of_text(text_1, &largeur_text, &hauteur_text);
     MLV_draw_filled_rectangle(55,200,240,50,MLV_COLOR_BLACK);
     MLV_draw_rectangle(55,200,240,50,MLV_COLOR_WHITE);
-    MLV_draw_text(x-largeur_text/2, y+150+(25-hauteur_text/2), text_1, MLV_COLOR_WHITE);
+    MLV_draw_text(x_clique-largeur_text/2, y_clique+150+(25-hauteur_text/2), text_1, MLV_COLOR_WHITE);
     MLV_actualise_window();
     MLV_wait_seconds(0.75);
     return 3;
@@ -157,7 +145,7 @@ int menu_pause(int width, int height){
     MLV_draw_filled_rectangle(55,265,240,50,MLV_COLOR_BLACK);
     MLV_draw_rectangle(55,265,240,50,MLV_COLOR_WHITE);
     MLV_get_size_of_text( text_2, &largeur_text, &hauteur_text );
-    MLV_draw_text( x-largeur_text/2, y+215+(25-hauteur_text/2), text_2, MLV_COLOR_WHITE);
+    MLV_draw_text( x_clique-largeur_text/2, y_clique+215+(25-hauteur_text/2), text_2, MLV_COLOR_WHITE);
     MLV_actualise_window();
     MLV_wait_seconds(0.75);
     return 0;
@@ -170,8 +158,10 @@ int menu_pause(int width, int height){
 }
 int menuJeu(int width, int height, matrice mat, int partiePoint, int nbJoueur, Joueurs mesJ){
 	
-  int perdu = 0, balle, vitesse =0, xBalle, level = 5, nbLigne = 1;
+  int perdu = 0, balle, vitesse =0, xBalle, level = 5, nbLigne = 1, menu;
   int largeur_text, hauteur_text, y_clique, x_clique;
+  char * scoreAffichage = "score : ";
+  char scoreA[10];
   fusee maFusee = malloc(sizeof(maFusee));
   Joueur monJ = mesJ.mesJoueurs[nbJoueur];
   matrice liste;
@@ -193,7 +183,7 @@ int menuJeu(int width, int height, matrice mat, int partiePoint, int nbJoueur, J
       if(longueurListe(liste) == 0){
         ligneMonstre(nbLigne, liste, mat);
       }
-      if(vitesse == level){
+      if(vitesse >= level){
           vitesse = 0;
           if(moveToutMonstre(liste, mat) == 1){
               partiePoint--;
@@ -202,21 +192,44 @@ int menuJeu(int width, int height, matrice mat, int partiePoint, int nbJoueur, J
       }
       if(monJ.scoreCourant > 1000) level = 3;
       if(level <= 3) nbLigne = 2;
-      attaqueFusee(maFusee, mat, liste, &balle, monJ, &xBalle);
-      balle--;
-      monJ.scoreCourant++;
-      MLV_draw_filled_rectangle(290,0,260,20,MLV_COLOR_WHITE);
-      MLV_get_size_of_text(text_1, &largeur_text, &hauteur_text);
-      MLV_draw_text(300,0,"pause",MLV_COLOR_BLACK);
-      MLV_wait_mouse(&x_clique, &y_clique);
-      /*clique (je fais un return 1 dans le clique)*/
-      if (x_clique>=290 && x_clique<=550 && y_clique>=0 && y_clique<=20){
-          int menu = menu_pause(WIDTH, HEIGHT);
-          if(menu == 5) menu = menu_pause(WIDTH, HEIGHT);
-          if(menu == 0) return 1;
-        }
-      MLV_actualise_window();
+      attaqueFusee(maFusee, mat, liste, &balle, &monJ, &xBalle);
       vitesse++;
+      balle--;
+      //monJ.scoreCourant++;
+      
+      MLV_draw_filled_rectangle(290,0,260,20,MLV_COLOR_WHITE);
+      MLV_get_size_of_text("pause", &largeur_text, &hauteur_text);
+      MLV_draw_text(300,0,"pause",MLV_COLOR_BLACK);
+      sprintf(scoreA, "%d", monJ.scoreCourant);
+      //strcat(scoreAffichage, scoreA);
+      
+      
+      MLV_draw_filled_rectangle(200,480,260,20,MLV_COLOR_WHITE);
+      MLV_get_size_of_text(scoreAffichage, &largeur_text, &hauteur_text);
+      MLV_draw_text(200,480,scoreAffichage,MLV_COLOR_BLACK);
+      MLV_draw_filled_rectangle(290,480,260,20,MLV_COLOR_WHITE);
+      MLV_get_size_of_text(scoreA, &largeur_text, &hauteur_text);
+      MLV_draw_text(300,480,scoreA,MLV_COLOR_BLACK);
+      
+      /*clique (je fais un return 1 dans le clique)*/
+      if(MLV_get_mouse_button_state(MLV_BUTTON_LEFT) == MLV_PRESSED){
+      		MLV_get_mouse_position(&x_clique, &y_clique);
+      		if (x_clique>=290 && x_clique<=550 && y_clique>=0 && y_clique<=20){
+		  menu = menu_pause(WIDTH, HEIGHT);
+		  if(menu == 5) menu = menu_pause(WIDTH, HEIGHT);
+		  if(menu == 0) return 1;
+		}
+		MLV_clear_window(MLV_COLOR_BLACK);
+      }
+      if(MLV_get_keyboard_state(SDLK_SPACE) == MLV_PRESSED){
+		menu = menu_pause(WIDTH, HEIGHT);
+	  	if(menu == 5) menu = menu_pause(WIDTH, HEIGHT);
+		if(menu == 0) return 1;
+      
+      }
+      
+      MLV_actualise_window();
+      
       planVide(mat);
       MLV_wait_milliseconds(20);
     }

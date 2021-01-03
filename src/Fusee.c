@@ -51,18 +51,19 @@ void moveFusee(fusee f, matrice m, int intensite, int direction){
     }
 }
 
-void attaqueFusee(fusee f, matrice mat, matrice l, int * i, Joueur monJ, int * xBalle){
+void attaqueFusee(fusee f, matrice mat, matrice l, int * i, Joueur * monJ, int * xBalle){
 
-    int m;
+    int m, frappe = 10;
 
     if(*i < HEIGHT && *i > 0){
             if (mat[*i-1][*xBalle] != 0)
             {
                 m = identificationMonstre(*xBalle,*i, l);
                 degat(m, l);
-
+		if(l[m][2] == 2) frappe = 25;
+		if(l[m][2] == 1) frappe = 50;
                 *i = f->positionFY-longueurFusee-1;
-                monJ.scoreCourant = monJ.scoreCourant+20;
+                monJ->scoreCourant = monJ->scoreCourant+frappe;
                 *xBalle = f->positionFX;
             }
 
