@@ -156,6 +156,138 @@ int menu_pause(int width, int height){
   }
   return 5;
 }
+int fiche_score(){
+  int i=0, x=175, y=50, largeur_text, hauteur_text, x_clique, y_clique;
+  int scoreint;
+  char score[500];
+  char nom[50];
+  char * text_score = "Tableau des scores";
+  char * text_retour = "Retour";
+  FILE* fichier = NULL;
+  MLV_clear_window(MLV_COLOR_BLACK);
+  MLV_actualise_window();
+/*fermer si erreur*/
+  fichier=fopen("./txt/score.txt", "r");
+  if (fichier==NULL){
+    fprintf (stderr, "erreur fichier\n");
+    exit(EXIT_FAILURE);
+  }
+   
+/*Tableau des scores*/
+  MLV_get_size_of_text(text_score, &largeur_text, &hauteur_text);
+  MLV_draw_text(110, 10, text_score, MLV_COLOR_WHITE);
+  while((fscanf(fichier,"%s %d", nom, &scoreint))==2 && i<10){
+    sprintf(score, "%d", scoreint);
+    MLV_draw_text(55, 50+30*i, nom, MLV_COLOR_WHITE);
+    MLV_draw_text(275, 50+30*i, score, MLV_COLOR_WHITE);
+    i++;
+  }
+ fclose(fichier);
+
+  /*Bouton retour*/
+  MLV_draw_filled_rectangle(55,395,240,50,MLV_COLOR_WHITE);
+  MLV_get_size_of_text(text_retour, &largeur_text, &hauteur_text );
+  MLV_draw_text(175-largeur_text/2, 395+(25-hauteur_text/2), text_retour, MLV_COLOR_BLACK);
+  MLV_actualise_window();
+
+ /*Clique sur le bouton*/
+  MLV_wait_mouse(&x_clique, &y_clique);
+  if (x_clique>= 55 && x_clique<=295 && y_clique>=395 && y_clique<=445){ 
+    fprintf(stdout,"%s\n", text_retour);
+     MLV_draw_filled_rectangle(55,395,240,50,MLV_COLOR_BLACK);
+     MLV_draw_rectangle(55,395,240,50,MLV_COLOR_WHITE);
+     MLV_get_size_of_text( text_retour, &largeur_text, &hauteur_text );
+     MLV_draw_text(x-largeur_text/2, y+345+(25-hauteur_text/2), text_retour, MLV_COLOR_WHITE);
+     MLV_actualise_window();
+     MLV_wait_seconds(0.75);
+     return 1;
+  }
+  else {
+    return 7;
+  }
+}
+
+void gameover(){
+  
+  int image_width=500, image_height=400;
+ 
+
+  MLV_Image* image= MLV_load_image("./src/gameover.png");
+
+  /*erreur s'il n'y a pas l'image*/
+  if( !image){
+    fprintf(stderr, "Image manquante.\n");
+    exit(EXIT_FAILURE);
+  }
+  /*recuperer les tailles*/
+  MLV_resize_image_with_proportions( image, image_width, image_height);
+  /*appliquer les tailles au images*/
+  MLV_get_image_size(image, &image_width, &image_height);
+  /*affichage*/
+  MLV_draw_image(image,-75,50);
+
+  MLV_actualise_window();
+}
+
+int save_score(int score, Joueurs *Joueurs){
+  int i,j;
+  char name[100];          /* Pour le trie, taille de chaine de caractère*/
+  int k=0;
+  char* nom;                
+  FILE* fichier = NULL;    /*initialiser le fichier */
+  i=0;
+ 
+  fichier = fopen("./txt/score.txt", "r"); 
+  if (fichier == NULL){printf("-->Vous tentez d’acceder a un fichier inexistant\n");
+    return 0;
+  }
+    
+  /*On prend les nom et les scores*/
+  while((fscanf(fichier,"%s %d",Joueurs->mesJoueurs[i].nomJoueur,&Joueurs->mesJoueurs[i].meilleurScore))==2 && i<=10){
+    i++;
+  }
+  fclose(fichier);
+  
+/*Si le score est inférieur à la dernière ligne*/
+/*Game Over + retour au menu*/
+  if(score < Joueurs->mesJoueurs[9].meilleurScore){
+  gameover();
+  MLV_wait_seconds(3);
+  return 1;
+  }
+/* Si le score est suppérieur à la dernière ligne*/
+/*On remplace la dernière ligne par le score et on retrie */
+  if (score > Joueurs->mesJoueurs[9].meilleurScore){
+    Joueurs->mesJoueurs[9].meilleurScore = score;
+/*L'utilisateur saisi son nom*/
+    MLV_wait_input_box(55,200, 240, 80, MLV_COLOR_WHITE, MLV_COLOR_BLACK, MLV_COLOR_WHITE,"Entrez votre nom :  ", &nom);
+    strcpy(Joueurs->mesJoueurs[9].nomJoueur, nom);   
+    
+    for(i=0;i<9;i++){
+      for(j=i+1;j<10;j++){
+        if (Joueurs->mesJoueurs[i].meilleurScore < Joueurs->mesJoueurs[j].meilleurScore){
+          k = Joueurs->mesJoueurs[i].meilleurScore;
+          Joueurs->mesJoueurs[i].meilleurScore = Joueurs->mesJoueurs[j].meilleurScore;
+          Joueurs->mesJoueurs[j].meilleurScore = k;
+
+          strcpy(name,Joueurs->mesJoueurs[i].nomJoueur);
+          strcpy(Joueurs->mesJoueurs[i].nomJoueur,Joueurs->mesJoueurs[j].nomJoueur);
+          strcpy(Joueurs->mesJoueurs[i].nomJoueur, name);
+        }
+      }
+    }
+  }
+/*Maj fichier*/
+  fichier = fopen("./txt/score.txt", "w+");
+  for(i=0;i<10;i++){
+    fprintf(fichier,"%s %d\n",Joueurs-> mesJoueurs[i].nomJoueur, Joueurs-> mesJoueurs[i].meilleurScore);
+  }
+  fclose(fichier);
+  
+  gameover();
+  MLV_wait_seconds(3);
+  return 1;
+}
 int menuJeu(int width, int height, matrice mat, int partiePoint, int nbJoueur){
 	
   int perdu = 0, balle, vitesse =0, xBalle, level = 5, nbLigne = 1, menu;
@@ -245,6 +377,7 @@ int menuJeu(int width, int height, matrice mat, int partiePoint, int nbJoueur){
   	mesJ.mesJoueurs[nbJoueur-1].meilleurScore = mesJ.mesJoueurs[nbJoueur-1].scoreCourant;
   }
   setJoueurs(mesJ);
+  save_score(mesJ.mesJoueurs[nbJoueur-1].scoreCourant, &mesJ);
   perdu = 0;
   return 1;
   

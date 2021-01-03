@@ -9,4 +9,7 @@
 int menu_principal(int width, int height);
 int menu_pause(int width, int height);
 int menuJeu(int width, int height, matrice mat, int partiePoint, int nbJoueur);
+int fiche_score();
+void gameover();
+int save_score(int score, Joueurs *Joueurs);
 #endif
