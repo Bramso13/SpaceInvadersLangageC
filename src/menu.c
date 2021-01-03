@@ -6,7 +6,7 @@
 #include <string.h>
 #include <MLV/MLV_all.h>
 
-int menu_principal(int width, int height, Joueurs mesJoueurs){
+int menu_principal(int width, int height){
   int largeur_text, hauteur_text, x_clique, y_clique, image_menu_width=300, image_menu_height=150;
   char * text_1 = "Partie joueur 1";
   char * text_2 = "Partie joueur 2"; 
@@ -156,14 +156,19 @@ int menu_pause(int width, int height){
   }
   return 5;
 }
-int menuJeu(int width, int height, matrice mat, int partiePoint, int nbJoueur, Joueurs mesJ){
+int menuJeu(int width, int height, matrice mat, int partiePoint, int nbJoueur){
 	
   int perdu = 0, balle, vitesse =0, xBalle, level = 5, nbLigne = 1, menu;
   int largeur_text, hauteur_text, y_clique, x_clique;
   char * scoreAffichage = "score : ";
   char scoreA[10];
   fusee maFusee = malloc(sizeof(maFusee));
-  Joueur monJ = mesJ.mesJoueurs[nbJoueur];
+  Joueurs mesJ = getMesJoueurs();
+  if((nbJoueur) == 1)
+  	mesJ.mesJoueurs[0].nomJoueur = "Joueur 1";
+  else 
+ 	mesJ.mesJoueurs[1].nomJoueur = "Joueur 2";
+  printf("nom : %s, meilleur : %d, score : %d\n",mesJ.mesJoueurs[nbJoueur-1].nomJoueur, mesJ.mesJoueurs[nbJoueur-1].meilleurScore, mesJ.mesJoueurs[nbJoueur-1].scoreCourant);
   matrice liste;
   constructeurFusee(maFusee, partiePoint);
   placeFusee(maFusee, mat);
@@ -190,9 +195,9 @@ int menuJeu(int width, int height, matrice mat, int partiePoint, int nbJoueur, J
               maFusee->pointFVie--;
           }         
       }
-      if(monJ.scoreCourant > 1000) level = 3;
+      if(mesJ.mesJoueurs[nbJoueur-1].scoreCourant > 1000) level = 3;
       if(level <= 3) nbLigne = 2;
-      attaqueFusee(maFusee, mat, liste, &balle, &monJ, &xBalle);
+      attaqueFusee(maFusee, mat, liste, &balle, &mesJ.mesJoueurs[nbJoueur-1], &xBalle);
       vitesse++;
       balle--;
       //monJ.scoreCourant++;
@@ -200,7 +205,7 @@ int menuJeu(int width, int height, matrice mat, int partiePoint, int nbJoueur, J
       MLV_draw_filled_rectangle(290,0,260,20,MLV_COLOR_WHITE);
       MLV_get_size_of_text("pause", &largeur_text, &hauteur_text);
       MLV_draw_text(300,0,"pause",MLV_COLOR_BLACK);
-      sprintf(scoreA, "%d", monJ.scoreCourant);
+      sprintf(scoreA, "%d", mesJ.mesJoueurs[nbJoueur-1].scoreCourant);
       //strcat(scoreAffichage, scoreA);
       
       
@@ -215,6 +220,7 @@ int menuJeu(int width, int height, matrice mat, int partiePoint, int nbJoueur, J
       if(MLV_get_mouse_button_state(MLV_BUTTON_LEFT) == MLV_PRESSED){
       		MLV_get_mouse_position(&x_clique, &y_clique);
       		if (x_clique>=290 && x_clique<=550 && y_clique>=0 && y_clique<=20){
+      		setJoueurs(mesJ);
 		  menu = menu_pause(WIDTH, HEIGHT);
 		  if(menu == 5) menu = menu_pause(WIDTH, HEIGHT);
 		  if(menu == 0) return 1;
@@ -235,6 +241,10 @@ int menuJeu(int width, int height, matrice mat, int partiePoint, int nbJoueur, J
     }
     
   }
+  if(mesJ.mesJoueurs[nbJoueur-1].scoreCourant > mesJ.mesJoueurs[nbJoueur-1].meilleurScore){
+  	mesJ.mesJoueurs[nbJoueur-1].meilleurScore = mesJ.mesJoueurs[nbJoueur-1].scoreCourant;
+  }
+  setJoueurs(mesJ);
   perdu = 0;
   return 1;
   

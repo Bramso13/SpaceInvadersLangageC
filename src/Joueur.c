@@ -13,7 +13,7 @@ Joueur getJoueur()
 {
 	Joueur monJoueur;
 
-    int fd = open("./txt/score", O_RDONLY, 0600);
+    int fd = open("./txt/score", O_RDONLY);
     if (fd < 0) {
         fprintf(stderr, "probleme d'ouverture de fichier");
 
@@ -24,7 +24,7 @@ Joueur getJoueur()
         fprintf(stderr, "probleme de lecture de fichier");
 
     }
-	
+	close(fd);
 	return(monJoueur);
 }
 
@@ -33,12 +33,12 @@ Joueurs getMesJoueurs(){
 
     Joueurs mesJoueurs;
     int i = 0;
-
-    while(getJoueur().nomJoueur != NULL){
-        mesJoueurs.mesJoueurs[i] = getJoueur();
-        i++;
-    }
-    mesJoueurs.nbJoueur = i;
+	for(i=0;i<2;i++){
+		Joueur monJoueur = getJoueur();
+    		mesJoueurs.mesJoueurs[i] = monJoueur;
+    		
+	}
+    mesJoueurs.nbJoueur = i+1;
     return mesJoueurs;
 }
 
@@ -51,7 +51,8 @@ int setJoueur(Joueur j, Joueurs js){
 int setJoueurs(Joueurs js){
 
     int i, fd = open("./txt/score", O_WRONLY | O_TRUNC | O_CREAT, 0600);
-    for(i=0;i<js.nbJoueur;i++){
+    for(i=0;i<2;i++) printf("nomJoueur : %s, meilleur : %d, score : %d\n", js.mesJoueurs[i].nomJoueur, js.mesJoueurs[i].meilleurScore,js.mesJoueurs[i].scoreCourant);
+    for(i=0;i<2;i++){
 
         if (fd > 0) {
             int iwrite = write(fd, &js.mesJoueurs[i], sizeof(Joueur));
@@ -64,6 +65,7 @@ int setJoueurs(Joueurs js){
             return 0;
         }
     }
+    close(fd);
     return 1;
 }
 char * getNomJoueur(Joueur j){return j.nomJoueur;};
