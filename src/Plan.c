@@ -25,6 +25,9 @@ void affichePlan(matrice mat){
             if(mat[i][j] == 1) couleur = MLV_COLOR_RED;
             if(mat[i][j] == 2) couleur = MLV_COLOR_BLUE;
             if(mat[i][j] == 3) couleur = MLV_COLOR_WHITE;
+            if(mat[i][j] == 4) couleur = MLV_COLOR_RED;
+            if(mat[i][j] == 8) couleur = MLV_COLOR_BLUE;
+            if(mat[i][j] == 12) couleur = MLV_COLOR_WHITE;
             if(mat[i][j] == 5) couleur = MLV_COLOR_WHITE;
             if(mat[i][j] == 15) couleur = MLV_COLOR_WHITE;
             if(mat[i][j] == 0) couleur = MLV_COLOR_BLACK;

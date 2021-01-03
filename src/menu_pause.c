@@ -1,4 +1,4 @@
-int menu_principal(int width, int heighauteur_text){
+int menu_pause(int width, int heighauteur_text){
   int largeur_text, hauteur_text, x_clique, y_clique;
   int image_menu_width=300, image_menu_height=150;
   char * text_1 = "Partie joueur 1";

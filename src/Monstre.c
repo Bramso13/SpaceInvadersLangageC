@@ -4,16 +4,7 @@
 #include <stdlib.h>
 #include <MLV/MLV_all.h>
 
-
-
-
-
-
-
 int placeMonstre(int x,int y,int pointVie,int type, matrice mat){
-
-
-
     switch (type)
     {
     case 0: // monstre de type de base
@@ -100,13 +91,6 @@ void listeVide(matrice l){
 		
 	}
 }
-void addMonstre(int x, int y, int point, int type, matrice l, int index){
-
-	l[index][0] = x;
-	l[index][1] = y;
-	l[index][2] = point;
-	l[index][3] = type;
-}
 
 int identificationMonstre(int x, int y, matrice l){
   int i;
@@ -137,7 +121,7 @@ void ligneMonstre(int nbDeLigne, matrice l, matrice mat){
 }
 void degat(int m, matrice liste){
 	if(m>=0) liste[m][2] = liste[m][2]-1;
-    	if(liste[m][2] <= 0) kill(m, liste);
+    if(liste[m][2] <= 0) kill(m, liste);
     
 }
 void kill(int i, matrice liste){
@@ -152,15 +136,14 @@ int moveToutMonstre(matrice liste, matrice mat){
 
     for(i=0;i<MAXMONSTRE;i++){
         if(liste[i][2] > 0){
-    	    	liste[i][1]++;
-		    //placeMonstre(liste[i][0],liste[i][1],liste[i][2],liste[i][3], mat);
-		    x = liste[i][0]; y = liste[i][1];
-		    for(j=0;j<largeurMonstre+1;j++){
-		    	for(k=0;k<hauteurMonstre+1;k++){
-		    		if(mat[y+k][x+j] == 15){ test=1; kill(i,liste);}
-		    	}
-		    }
-		    if(y+hauteurMonstre+1 >= HEIGHT) kill(i, liste);
+            liste[i][1]++;
+            x = liste[i][0]; y = liste[i][1];
+            for(j=0;j<largeurMonstre+1;j++){
+                for(k=0;k<hauteurMonstre+1;k++){
+                    if(mat[y+k][x+j] == 12 || mat[y+k][x+j] == 8 || mat[y+k][x+j] == 4){ test=1; kill(i,liste);}
+                }
+            }
+            if(y+hauteurMonstre+1 >= HEIGHT) kill(i, liste);
 	    }
     }
     return test;

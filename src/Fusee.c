@@ -24,12 +24,12 @@ void setY(fusee f, int y){
 
 void placeFusee(fusee f, matrice mat){
     int x = f->positionFX, y=f->positionFY;
-    mat[y][x] = 15;mat[y][x+1] = 15;mat[y][x-1] = 15;
-    mat[y-1][x] = 15;mat[y-1][x+1] = 15;mat[y-1][x-1] = 15;
-    mat[y-2][x] = 15;mat[y-2][x+1] = 15;mat[y-2][x-1] = 15;
-    mat[y+1][x] = 15;mat[y+1][x+1] = 15;mat[y+1][x-1] = 15;
-    mat[y+2][x] = 15;mat[y+2][x+1] = 15;mat[y+2][x-1] = 15;
-    mat[y+3][x] = 15;
+    mat[y][x] = f->pointFVie*4;mat[y][x+1] = f->pointFVie*4;mat[y][x-1] = f->pointFVie*4;
+    mat[y-1][x] = f->pointFVie*4;mat[y-1][x+1] = f->pointFVie*4;mat[y-1][x-1] = f->pointFVie*4;
+    mat[y-2][x] = f->pointFVie*4;mat[y-2][x+1] = f->pointFVie*4;mat[y-2][x-1] = f->pointFVie*4;
+    mat[y+1][x] = f->pointFVie*4;mat[y+1][x+1] = f->pointFVie*4;mat[y+1][x-1] = f->pointFVie*4;
+    mat[y+2][x] = f->pointFVie*4;mat[y+2][x+1] = f->pointFVie*4;mat[y+2][x-1] = f->pointFVie*4;
+    mat[y+3][x] = f->pointFVie*4;
 }
 
 void moveFusee(fusee f, matrice m, int intensite, int direction){
