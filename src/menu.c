@@ -229,13 +229,15 @@ void gameover(){
   MLV_actualise_window();
 }
 
-int save_score(int score, Joueurs *Joueurs){
+int save_score(int score){
+  
+  Joueur mesJoueurs[10];
   int i,j;
   char name[100];          /* Pour le trie, taille de chaine de caractère*/
   int k=0;
   char* nom;                
   FILE* fichier = NULL;    /*initialiser le fichier */
-  i=0;
+  i=1;
  
   fichier = fopen("./txt/score.txt", "r"); 
   if (fichier == NULL){printf("-->Vous tentez d’acceder a un fichier inexistant\n");
@@ -243,44 +245,48 @@ int save_score(int score, Joueurs *Joueurs){
   }
     
   /*On prend les nom et les scores*/
-  while((fscanf(fichier,"%s %d",Joueurs->mesJoueurs[i].nomJoueur,&Joueurs->mesJoueurs[i].meilleurScore))==2 && i<=10){
+  while((fscanf(fichier,"%s %d",mesJoueurs[i].nomJoueur_score,&mesJoueurs[i].meilleurScore))==2 && i<=10){
     i++;
   }
   fclose(fichier);
+
   
 /*Si le score est inférieur à la dernière ligne*/
 /*Game Over + retour au menu*/
-  if(score < Joueurs->mesJoueurs[9].meilleurScore){
+  if(score < mesJoueurs[10].meilleurScore){
   gameover();
   MLV_wait_seconds(3);
   return 1;
   }
+
 /* Si le score est suppérieur à la dernière ligne*/
 /*On remplace la dernière ligne par le score et on retrie */
-  if (score > Joueurs->mesJoueurs[9].meilleurScore){
-    Joueurs->mesJoueurs[9].meilleurScore = score;
+  if (score > mesJoueurs[10].meilleurScore){
+    mesJoueurs[10].meilleurScore = score;
 /*L'utilisateur saisi son nom*/
     MLV_wait_input_box(55,200, 240, 80, MLV_COLOR_WHITE, MLV_COLOR_BLACK, MLV_COLOR_WHITE,"Entrez votre nom :  ", &nom);
-    strcpy(Joueurs->mesJoueurs[9].nomJoueur, nom);   
+    strcpy(mesJoueurs[10].nomJoueur_score, nom);
+    printf("%s bien joué !\n",mesJoueurs[10].nomJoueur_score);
+    free(nom); 
     
-    for(i=0;i<9;i++){
-      for(j=i+1;j<10;j++){
-        if (Joueurs->mesJoueurs[i].meilleurScore < Joueurs->mesJoueurs[j].meilleurScore){
-          k = Joueurs->mesJoueurs[i].meilleurScore;
-          Joueurs->mesJoueurs[i].meilleurScore = Joueurs->mesJoueurs[j].meilleurScore;
-          Joueurs->mesJoueurs[j].meilleurScore = k;
+    for(i=1;i<10;i++){
+      for(j=i+1;j<11;j++){
+        if (mesJoueurs[i].meilleurScore < mesJoueurs[j].meilleurScore){
+          k = mesJoueurs[i].meilleurScore;
+          mesJoueurs[i].meilleurScore = mesJoueurs[j].meilleurScore;
+          mesJoueurs[j].meilleurScore = k;
 
-          strcpy(name,Joueurs->mesJoueurs[i].nomJoueur);
-          strcpy(Joueurs->mesJoueurs[i].nomJoueur,Joueurs->mesJoueurs[j].nomJoueur);
-          strcpy(Joueurs->mesJoueurs[i].nomJoueur, name);
+          strcpy(name,mesJoueurs[i].nomJoueur_score);
+          strcpy(mesJoueurs[i].nomJoueur_score,mesJoueurs[j].nomJoueur_score);
+          strcpy(mesJoueurs[j].nomJoueur_score, name);
         }
       }
     }
   }
 /*Maj fichier*/
-  fichier = fopen("./txt/score.txt", "w+");
-  for(i=0;i<10;i++){
-    fprintf(fichier,"%s %d\n",Joueurs-> mesJoueurs[i].nomJoueur, Joueurs-> mesJoueurs[i].meilleurScore);
+  fichier = fopen("./txt/score1.txt", "w+");
+  for(i=1;i<11;i++){
+    fprintf(fichier,"%s %d\n",mesJoueurs[i].nomJoueur_score, mesJoueurs[i].meilleurScore);
   }
   fclose(fichier);
   

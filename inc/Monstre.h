@@ -13,7 +13,7 @@
 void placeTouteListe(matrice l, matrice mat);
 int longueurListe(matrice l);
 int placeMonstre(int x,int y,int pointVie,int type, matrice mat);
-int constructeurMonstreBase(int x, int y, int index, matrice l);
+
 int identificationMonstre(int x, int y, matrice l);
 void degat(int m, matrice liste);
 void kill(int i, matrice liste);

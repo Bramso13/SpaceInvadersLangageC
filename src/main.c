@@ -68,6 +68,9 @@ int main(){
         
         fenetre = menuJeu(width,height,mat,partiePoint,2);
         break;
+    case 5 :
+        fiche_score();
+        break;
     default : fenetre = 0;
     }
     printf("%d\n", fenetre);
