@@ -32,13 +32,26 @@ Joueurs getMesJoueurs(){
 
 
     Joueurs mesJoueurs;
-    int i = 0;
+    int i;
+    int fd = open("./txt/test", O_RDONLY);
+    int iread;
 	for(i=0;i<2;i++){
-		Joueur monJoueur = getJoueur();
-    		mesJoueurs.mesJoueurs[i] = monJoueur;
+		
+		    if (fd < 0) {
+			fprintf(stderr, "probleme d'ouverture de fichier");
+
+		    }
+
+			iread = read(fd, &mesJoueurs.mesJoueurs[i], sizeof(Joueur));
+			if (iread < 0) {
+			fprintf(stderr, "probleme de lecture de fichier");
+
+		    }
+			
     		
 	}
-    mesJoueurs.nbJoueur = i+1;
+	close(fd);
+    mesJoueurs.nbJoueur = i;
     return mesJoueurs;
 }
 
@@ -50,12 +63,12 @@ int setJoueur(Joueur j, Joueurs js){
 
 int setJoueurs(Joueurs js){
 
-    int i, fd = open("./txt/score", O_WRONLY | O_TRUNC | O_CREAT, 0600);
-    for(i=0;i<2;i++) printf("nomJoueur : %s, meilleur : %d, score : %d\n", js.mesJoueurs[i].nomJoueur, js.mesJoueurs[i].meilleurScore,js.mesJoueurs[i].scoreCourant);
-    for(i=0;i<2;i++){
-
+    int i, fd = open("./txt/test", O_WRONLY | O_TRUNC | O_CREAT, 0600);
+    int iwrite;
+    for(i=0;i<js.nbJoueur;i++){
+	printf("nomJoueur : %s, meilleur : %d, score : %d, nbJ : %d\n", js.mesJoueurs[i].nomJoueur, js.mesJoueurs[i].meilleurScore,js.mesJoueurs[i].scoreCourant, js.nbJoueur);
         if (fd > 0) {
-            int iwrite = write(fd, &js.mesJoueurs[i], sizeof(Joueur));
+            iwrite = write(fd, &js.mesJoueurs[i], sizeof(Joueur));
             if (iwrite < 0) {
                 fprintf(stderr, "erreur d'ecriture de fichier");
                 return 0;

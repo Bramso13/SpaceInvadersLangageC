@@ -26,6 +26,31 @@ int main(){
   matrice mat;
   planVide(mat);
   
+  int fd = open("./txt/test", O_WRONLY | O_TRUNC | O_CREAT, 0600);
+    int iwrite;
+    
+    	Joueur j1, j2;
+    j1.nomJoueur = "joueur 1"; j1.scoreCourant = 0; j1.meilleurScore = 0;
+	j2.nomJoueur = "joueur 2"; j2.scoreCourant = 0; j2.meilleurScore = 0;
+        if (fd > 0) {
+            iwrite = write(fd, &j1, sizeof(Joueur));
+            if (iwrite < 0) {
+                fprintf(stderr, "erreur d'ecriture de fichier");
+                return 0;
+            }
+            iwrite = write(fd, &j2, sizeof(Joueur));
+            if (iwrite < 0) {
+                fprintf(stderr, "erreur d'ecriture de fichier");
+                return 0;
+            }
+	    }else{
+            fprintf(stderr, "erreur d'ouverture de fichier");
+            return 0;
+        }
+    
+    close(fd);
+    
+    
   
   while (fenetre != 0){
     MLV_clear_window(MLV_COLOR_BLACK);

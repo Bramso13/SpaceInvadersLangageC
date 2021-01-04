@@ -296,10 +296,7 @@ int menuJeu(int width, int height, matrice mat, int partiePoint, int nbJoueur){
   char scoreA[10];
   fusee maFusee = malloc(sizeof(maFusee));
   Joueurs mesJ = getMesJoueurs();
-  if((nbJoueur) == 1)
-  	mesJ.mesJoueurs[0].nomJoueur = "Joueur 1";
-  else 
- 	mesJ.mesJoueurs[1].nomJoueur = "Joueur 2";
+  
   printf("nom : %s, meilleur : %d, score : %d\n",mesJ.mesJoueurs[nbJoueur-1].nomJoueur, mesJ.mesJoueurs[nbJoueur-1].meilleurScore, mesJ.mesJoueurs[nbJoueur-1].scoreCourant);
   matrice liste;
   constructeurFusee(maFusee, partiePoint);
